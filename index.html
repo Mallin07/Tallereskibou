@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Talleres Kibou</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header>
+ <div id="usuario-activo" class="usuario-box" style="display: none;">
+  <span id="nombre-usuario" class="usuario-nombre"></span>
+  <div class="usuario-menu" id="menu-usuario">
+    <span id="correo-usuario"></span><br>
+    <button id="cerrar-sesion">Cerrar sesión</button>
+  </div>
+ </div>
+
+
+
+ <div class="auth-buttons">
+  <button onclick="window.location.href='login/login.html'">Iniciar sesión</button>
+  <button onclick="window.location.href='registro/registro.html'">Crear perfil</button>
+ </div>
+
+    <h1>Bienvenid@ a los talleres <span class="kibou">KIBOU</span></h1>
+    <h2>¿Qué clase de experiencia estás buscando?</h2>
+  </header>
+
+<div class="talleres-contenedor">
+  <!-- Primera caja -->
+  <a href="taller.html" class="taller-link">
+  <section class="taller-box">
+    <h2 class="titulo-taller">Taller</h2>
+    <img src="assets/taller.png" alt="Taller" class="imagen-taller">
+
+    <p class="descripcion-corta">
+      Disfruta de un taller único y personalizado donde crearás tus propios pendientes paso a paso.
+    </p>
+  </section>
+  </a>
+
+  <!-- Segunda caja -->
+   <a href="gastrotaller.html" class="taller-link">
+  <section class="taller-box">
+    <h2 class="titulo-taller">Gastrotaller</h2>
+    <img src="assets/gastrotaller.png" alt="Gastrotaller" class="imagen-taller imagen-gastro">
+
+    <p class="descripcion-corta">
+      Acompaña tu taller con una experiencia gastronómica que deleita los sentidos. Un momento único que combina creatividad, sabor y emoción.
+    </p>
+    
+  </section>
+  </a>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
