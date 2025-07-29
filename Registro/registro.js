@@ -1,36 +1,31 @@
-const form = document.querySelector("form");
+// registro.js  //
+import { auth, guardarUsuario } from "../firebase.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form-registro");
 
-  const nombre = document.getElementById("nombre").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const confirmar = document.getElementById("confirmar-password").value;
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  if (password !== confirmar) {
-    alert("Las contraseñas no coinciden.");
-    return;
-  }
+    const nombre = document.getElementById("nombre").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmar = document.getElementById("confirmar-password").value;
 
-  let usuarios = JSON.parse(localStorage.getItem("usuariosKibou")) || [];
+    if (password !== confirmar) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
 
-  const emailExiste = usuarios.some(u => u.email.toLowerCase() === email.toLowerCase());
-  const nombreExiste = usuarios.some(u => u.nombre.toLowerCase() === nombre.toLowerCase());
-
-  if (emailExiste) {
-    alert("Este correo ya está registrado.");
-    return;
-  }
-
-  if (nombreExiste) {
-    alert("Este nombre de usuario ya está en uso. Elige otro.");
-    return;
-  }
-
-  usuarios.push({ nombre, email, password });
-  localStorage.setItem("usuariosKibou", JSON.stringify(usuarios));
-
-  alert("Perfil creado con éxito. Ahora puedes iniciar sesión.");
-  window.location.href = "../login/login.html";
+    try {
+      const credenciales = await createUserWithEmailAndPassword(auth, email, password);
+      await guardarUsuario(nombre, email);
+      alert("✅ Registro exitoso. Sesión iniciada.");
+      window.location.href = "../index.html";
+    } catch (error) {
+      console.error("❌ Error al crear usuario:", error);
+      alert("Error: " + error.message);
+    }
+  });
 });

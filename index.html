@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Talleres Kibou</title>
   <link rel="stylesheet" href="style.css" />
+
 </head>
 
 <body>
@@ -13,7 +14,6 @@
  <div id="usuario-activo" class="usuario-box" style="display: none;">
   <span id="nombre-usuario" class="usuario-nombre"></span>
   <div class="usuario-menu" id="menu-usuario">
-    <span id="correo-usuario"></span><br>
     <button id="cerrar-sesion">Cerrar sesión</button>
   </div>
  </div>
@@ -56,6 +56,33 @@
   </a>
 </div>
 
-  <script src="script.js"></script>
+<script type="module" src="script.js"></script>
+
+
+
+  <!-- autentificación usuario-->
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const usuarioBox = document.getElementById("usuario-activo");
+  const cerrarSesionBtn = document.getElementById("cerrar-sesion");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      usuarioBox.style.display = "block";
+    } else {
+      usuarioBox.style.display = "none";
+    }
+  });
+
+  cerrarSesionBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.reload();
+  });
+</script>
+
+
+
 </body>
 </html>
