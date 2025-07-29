@@ -1,20 +1,20 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  padding: 15px;
 }
 
 header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 header h1 {
-  font-size: 2.5em;
+  font-size: 1.5em;
   color: #2c3e50;
 }
 
 header h2 {
-  font-size: 1.3em;
+  font-size: 1.0em;
   color: #555;
   font-weight: normal;
 }
@@ -32,7 +32,7 @@ header h2 {
   background: #f8f8f8;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 10px 5px;
   min-width: 200px;
 }
 
@@ -86,24 +86,25 @@ header h2 {
 
 /* ------------------- Caja taller------------------------ */
 
+
+
 .taller-box {
-  width: 400px;
-  height: 550px; /* ✅ altura fija, elimina height: 100% */
   background-color: #fff8ee;
   border: 2px solid #000;
   border-radius: 20px;
   padding: 20px;
-  margin: 40px auto;
   text-align: center;
   font-family: 'Arial', sans-serif;
   box-sizing: border-box;
-  flex-shrink: 0;
-  flex-grow: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  width: 100%;          /* ocupa todo el espacio disponible del grid */
+  height: 100%;         /* permite igualar altura entre cajas */
 }
+
 
 .titulo-taller {
   color: #d35400;
@@ -135,14 +136,14 @@ header h2 {
 }
 
 .talleres-contenedor {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
-  justify-content: center;
-  align-items: flex-start; /* 👈 evita que se estiren verticalmente */
   max-width: 1000px;
   margin: 40px auto;
+  padding: 0 10px;
 }
+
 
 .taller-box:hover {
   transform: translateY(-8px); /* Eleva ligeramente la caja */
@@ -339,44 +340,89 @@ header h2 {
 /* ---------------------------------adaptación mobiles----------------------------------- */
 
 @media (max-width: 600px) {
-  header {
-    padding: 20px 10px;
-    text-align: center;
-  }
+.talleres-contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  justify-content: center; /* ✅ centra cuando hay menos columnas */
+  padding: 10px;
+  width: 100%;
+  max-width: 100%;
+}
 
-  .talleres-contenedor {
+
+  .escojer-clase-taller-box,
+  .escojer-clase-subtaller-box {
+    display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    height: 100%;             /* se adapta al contenedor */
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    font-size: 0.8rem;
+    box-sizing: border-box;
   }
 
   .taller-box {
-    width: 90%;
+    width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 0.8rem;
+    box-sizing: border-box;
   }
+
+.subtalleres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Más flexible */
+  gap: 16px;
+  justify-items: center;
+  padding: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.escojer-clase-subtaller-box {
+  width: 100%;
+  max-width: 200px; /* Limita el ancho en móviles */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 10px;
+}
 
   .imagen-taller,
   .imagen-gastrotaller {
     width: 100%;
     height: auto;
-    border-radius: 20px;
-  }
-
-  .escojer-clase-taller-box,
-  .escojer-clase-subtaller-box {
-    width: 90%;
-    height: auto;
-    margin-bottom: 20px;
+    object-fit: contain;
+    max-height: 100px;
   }
 
   .usuario-box {
     position: static;
+    margin: 10px auto;
     width: 90%;
     max-width: 300px;
-    margin: 0 auto 20px auto;
-    text-align: center;
-    box-shadow: none;
     transform: none;
   }
-}
 
+  .boton-inscribirse {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .taller-header h2 {
+    font-size: 0.9em;
+    text-align: center;
+  }
+
+  .personas {
+    font-size: 0.8em;
+  }
+
+  
+}

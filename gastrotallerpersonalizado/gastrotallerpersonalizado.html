@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gastrotaller</title>
+  <link rel="stylesheet" href="gastrotallerpersonalizado.css" />
+</head>
+
+<body class="gastrotaller-page">
+  <div class="contenido-fijo-350">
+
+      <div id="usuario-activo" class="usuario-box oculto">
+        <span id="nombre-usuario" class="usuario-nombre"></span>
+        <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario"></span><br>
+        <button id="cerrar-sesion">Cerrar sesión</button>
+        </div> 
+       </div>
+
+    <header>
+      <h1>Personaliza tu Gastrotaller</h1>
+    </header>
+
+    <h2 class="clase-taller">Escoje la clase de taller</h2>
+
+    <!---------------------- Primera selección ------------------->
+    <div class="talleres-contenedor">
+
+      <!-- Caja 1 -->
+      <section class="escojer-clase-taller-box" data-taller="pendientes">
+        <div class="taller-header">
+          <h2 class="titulo-taller">Pendientes</h2>
+        </div>
+        <div class="taller-body">
+          <img src="assets/taller.png" alt="Taller" class="imagen-taller">
+        </div>
+        <div class="taller-footer">
+          <p class="disponibilidad">Disponible</p>
+        </div>
+      </section>
+
+      <!-- Caja 2 -->
+      <section class="escojer-clase-taller-box" data-taller="flores">
+        <div class="taller-header">
+          <h2 class="titulo-taller">Flores secas</h2>
+        </div>
+        <div class="taller-body">
+          <img src="assets/flores.png" alt="Gastrotaller" class="imagen-taller">
+        </div>
+        <div class="taller-footer">
+          <p class="disponibilidad">Próximamente</p>
+        </div>
+      </section>
+
+      <!-- Caja 3 -->
+      <section class="escojer-clase-taller-box" data-taller="mandalas">
+        <div class="taller-header">
+          <h2 class="titulo-taller">Mandalas</h2>
+        </div>
+        <div class="taller-body">
+          <img src="assets/mandala.png" alt="Gastrotaller" class="imagen-taller">
+        </div>
+        <div class="taller-footer">
+          <p class="disponibilidad">Próximamente</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!---------------------- Segunda selección ------------------->
+
+<div class="subtalleres" id="pendientes-subtalleres">
+  <h2 class="clase-taller">Escoje la técnica</h2>
+
+  <div class="subtalleres-grid">
+    <!-- Subtaller 1 -->
+    <section class="escojer-clase-subtaller-box" data-subtaller="terracota">
+      <div class="taller-header">
+        <h2 class="titulo-taller">Terracota o Marmolado</h2>
+      </div>
+      <div class="taller-body">
+        <img src="assets/terracotaomarmolado.png" alt="Taller" class="imagen-taller2">
+      </div>
+      <div class="taller-footer">
+        <p class="disponibilidad">Disponible</p>
+      </div>
+    </section>
+
+    <!-- Subtaller 2 -->
+    <section class="escojer-clase-subtaller-box" data-subtaller="flores">
+      <div class="taller-header">
+        <h2 class="titulo-taller">Flores</h2>
+      </div>
+      <div class="taller-body">
+        <img src="assets/pendienteflor.png" alt="Taller" class="imagen-taller">
+      </div>
+      <div class="taller-footer">
+        <p class="disponibilidad">Disponible</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+  <script src="gastrotallerpersonalizado.js"></script>
+</body>
+</html>

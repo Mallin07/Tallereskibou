@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.getElementById("menu-usuario");
   const botonesAuth = document.querySelector(".auth-buttons");
 
-  if (usuario) {
+  if (usuario && box && nombre && correo && cerrar && menu) {
     box.style.display = "inline-block";
     nombre.textContent = `👤 ${usuario.nombre}`;
     correo.textContent = usuario.email;
@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.reload();
     });
   }
+ });
 
   /* ---------------------------------- Inscripciones taller ------------------------------------- */
   document.querySelectorAll('.taller-box').forEach(taller => {
@@ -179,4 +180,4 @@ document.addEventListener("DOMContentLoaded", () => {
     inscripciones = inscripciones.filter(i => !(i.email === email && i.tallerId === tallerId));
     localStorage.setItem("inscripcionesKibou", JSON.stringify(inscripciones));
   }
-});
+
