@@ -10,12 +10,13 @@ body {
   padding: 0;
 }
 
-/* Contenedor general */
-.contenedor-central {
-  max-width: 100%;
-  padding: 0 10px;
+.contenido-fijo-350 {
+  width: 100%;
+  max-width: 360px;     /* ✅ Limita el ancho en pantallas grandes */
   margin: 0 auto;
+  padding: 0 10px;
 }
+
 
 .contenido-fijo-350 {
   width: 360px;
