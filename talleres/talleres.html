@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taller</title>
+  <link rel="stylesheet" href="talleres.css" />
+</head>
+
+<body>
+  <header>
+   <div id="usuario-activo" class="usuario-box" style="display: none;">
+   <span id="nombre-usuario" class="usuario-nombre"></span>
+   <div class="usuario-menu" id="menu-usuario">
+    <span id="correo-usuario"></span><br>
+    <button id="cerrar-sesion">Cerrar sesión</button>
+  </div>
+  </div>
+
+    <h1>Talleres</h1>
+  </header>
+  
+  <div class="talleres-contenedor">
+   <!-- Primera caja -->
+   <section class="taller-box">
+    <h2 class="titulo-taller">Taller personalizado</h2>
+    <img src="assets/taller.png" alt="Taller" class="imagen-taller">
+    <p class="dificultad-taller">
+        4-6 personas
+    </p>
+
+        <button class="boton-personalizar-taller">Personalizar gastrotaller</button>
+        <button class="boton-info">Ver información</button>
+
+        <!-- Caja de información (modal) inicialmente oculta -->
+        <div class="info-modal oculto">
+        <p>
+        Si sois entre 4 y 6 personas, personalizad vuestro taller en la web a vuestro gusto. Nosotr@s os contactaremos para elegir la fecha que mejor os encaje.
+        </p>
+    </div>
+   </section>
+  </div>
+
+  <div class="talleres-contenedor">
+   <!-- Segunda caja -->
+   <section class="taller-box" data-taller-id="terracota">
+      <h2 class="titulo-taller">Taller de pendientes</h2>
+
+      <img src="assets/terracotaomarmolado.png" alt="Taller" class="imagen-gastrotaller">
+
+      <p class="clase-taller">
+      Técnicas de terracota o marmolado
+      </p>
+
+      <p class="dificultad-taller">
+        Iniciación
+      </p>
+
+      <p class="plazas-disponibles">Plazas disponibles: <span class="contador">6</span></p>
+
+      <button class="boton-inscribirse">Inscribirse</button>
+      <button class="boton-info">Ver información</button>
+
+      <!-- Caja de información (modal) inicialmente oculta -->
+      <div class="info-modal oculto">
+      <p>
+      En este taller aprenderás a crear pendientes únicos usando arcilla polimérica con técnicas de terracota o marmolado. Ideal para principiantes y personas creativas.
+      </p>
+    </section>
+  </div>
+
+<script type="module" src="../firebase.js"></script>  
+<script type="module" src="talleres.js"></script>
+
+
+
+</body>
+</html>
