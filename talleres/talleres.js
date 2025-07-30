@@ -35,48 +35,60 @@ onAuthStateChanged(auth, async (user) => {
     const email = user.email;
 
     document.querySelectorAll(".taller-box").forEach(async (taller) => {
-      const tallerId = taller.dataset.tallerId;
-      const contadorSpan = taller.querySelector(".contador");
-      const inscribirBtn = taller.querySelector(".boton-inscribirse");
+  const tallerId = taller.dataset.tallerId;
+  const contadorSpan = taller.querySelector(".contador");
+  const inscribirBtn = taller.querySelector(".boton-inscribirse");
 
-      if (!tallerId || !contadorSpan || !inscribirBtn) return;
+  if (!tallerId || !contadorSpan || !inscribirBtn) return;
 
-      const docSnap = await getDoc(doc(db, "inscripciones", tallerId));
-      let usuarios = docSnap.exists() ? docSnap.data().usuarios || [] : [];
+  const docSnap = await getDoc(doc(db, "inscripciones", tallerId));
+  let usuarios = docSnap.exists() ? docSnap.data().usuarios || [] : [];
 
-      const totalPlazas = 6;
-      const plazasRestantes = totalPlazas - usuarios.length;
-      contadorSpan.textContent = plazasRestantes;
+  const totalPlazas = 6;
+  const plazasRestantes = totalPlazas - usuarios.length;
+  contadorSpan.textContent = plazasRestantes;
 
-      const inscrito = usuarios.includes(email);
+  const user = auth.currentUser;
+  const email = user?.email;
+  const inscrito = email && usuarios.includes(email);
 
-      if (inscrito) {
-        inscribirBtn.textContent = "Cancelar inscripción";
-        inscribirBtn.classList.add("inscrito");
+  if (inscrito) {
+    inscribirBtn.textContent = "Cancelar inscripción";
+    inscribirBtn.classList.add("inscrito");
+  }
+
+  if (plazasRestantes <= 0 && !inscrito) {
+    inscribirBtn.disabled = true;
+  }
+
+  inscribirBtn.addEventListener("click", async () => {
+    const user = auth.currentUser;
+
+    // ⚠️ Verifica si hay sesión
+    if (!user) {
+      alert("Debes iniciar sesión para inscribirte.");
+      return;
+    }
+
+    const email = user.email;
+
+    if (usuarios.includes(email)) {
+      if (confirm("¿Cancelar tu inscripción?")) {
+        await cancelarInscripcion(email, tallerId);
+        alert("Inscripción cancelada.");
+        location.reload();
       }
-
-      if (plazasRestantes <= 0 && !inscrito) {
-        inscribirBtn.disabled = true;
+    } else {
+      if (plazasRestantes <= 0) {
+        alert("No quedan plazas disponibles.");
+        return;
       }
-
-      inscribirBtn.addEventListener("click", async () => {
-        if (inscrito) {
-          if (confirm("¿Cancelar tu inscripción?")) {
-            await cancelarInscripcion(email, tallerId);
-            alert("Inscripción cancelada.");
-            location.reload();
-          }
-        } else {
-          if (plazasRestantes <= 0) {
-            alert("No quedan plazas disponibles.");
-            return;
-          }
-          await guardarInscripcion(email, tallerId);
-          alert("Inscripción realizada con éxito.");
-          location.reload();
-        }
-      });
-    });
+      await guardarInscripcion(email, tallerId);
+      alert("Inscripción realizada con éxito.");
+      location.reload();
+    }
+  });
+});
 
   } else {
     // Ocultar datos de usuario si no hay sesión
