@@ -20,8 +20,9 @@ onAuthStateChanged(auth, async (user) => {
   const menu = document.getElementById("menu-usuario");
   const botonesAuth = document.querySelector(".auth-buttons");
 
+  const email = user?.email || null;
+
   if (user) {
-    // Mostrar datos de usuario
     if (box) box.style.display = "inline-block";
     if (botonesAuth) botonesAuth.style.display = "none";
 
@@ -30,11 +31,13 @@ onAuthStateChanged(auth, async (user) => {
     nombre.textContent = docSnap.exists()
       ? `👤 ${docSnap.data().nombre}`
       : `👤 ${user.email}`;
+  } else {
+    if (box) box.style.display = "none";
+    if (botonesAuth) botonesAuth.style.display = "flex";
+  }
 
-    // Lógica de talleres
-    const email = user.email;
-
-    document.querySelectorAll(".taller-box").forEach(async (taller) => {
+  // ✅ Esto se ejecuta siempre, haya o no sesión iniciada
+  document.querySelectorAll(".taller-box").forEach(async (taller) => {
   const tallerId = taller.dataset.tallerId;
   const contadorSpan = taller.querySelector(".contador");
   const inscribirBtn = taller.querySelector(".boton-inscribirse");
@@ -48,53 +51,52 @@ onAuthStateChanged(auth, async (user) => {
   const plazasRestantes = totalPlazas - usuarios.length;
   contadorSpan.textContent = plazasRestantes;
 
-  const user = auth.currentUser;
-  const email = user?.email;
   const inscrito = email && usuarios.includes(email);
 
-  if (inscrito) {
-    inscribirBtn.textContent = "Cancelar inscripción";
-    inscribirBtn.classList.add("inscrito");
+  // Solo actualizamos el texto y deshabilitación si hay sesión
+  if (user) {
+    if (inscrito) {
+      inscribirBtn.textContent = "Cancelar inscripción";
+      inscribirBtn.classList.add("inscrito");
+    }
+
+    if (plazasRestantes <= 0 && !inscrito) {
+      inscribirBtn.disabled = true;
+    }
   }
 
-  if (plazasRestantes <= 0 && !inscrito) {
-    inscribirBtn.disabled = true;
-  }
-
+  // ⚠️ Este addEventListener debe ejecutarse siempre
   inscribirBtn.addEventListener("click", async () => {
-    const user = auth.currentUser;
+    const currentUser = auth.currentUser;
 
-    // ⚠️ Verifica si hay sesión
-    if (!user) {
+    if (!currentUser) {
       alert("Debes iniciar sesión para inscribirte.");
       return;
     }
 
-    const email = user.email;
+    const userEmail = currentUser.email;
 
-    if (usuarios.includes(email)) {
+    const latestSnap = await getDoc(doc(db, "inscripciones", tallerId));
+    let latestUsuarios = latestSnap.exists() ? latestSnap.data().usuarios || [] : [];
+    const yaInscrito = latestUsuarios.includes(userEmail);
+
+    if (yaInscrito) {
       if (confirm("¿Cancelar tu inscripción?")) {
-        await cancelarInscripcion(email, tallerId);
+        await cancelarInscripcion(userEmail, tallerId);
         alert("Inscripción cancelada.");
         location.reload();
       }
     } else {
-      if (plazasRestantes <= 0) {
+      if (latestUsuarios.length >= totalPlazas) {
         alert("No quedan plazas disponibles.");
         return;
       }
-      await guardarInscripcion(email, tallerId);
+      await guardarInscripcion(userEmail, tallerId);
       alert("Inscripción realizada con éxito.");
       location.reload();
     }
   });
 });
-
-  } else {
-    // Ocultar datos de usuario si no hay sesión
-    if (box) box.style.display = "none";
-    if (botonesAuth) botonesAuth.style.display = "flex";
-  }
 
   // Cierre de sesión
   cerrar?.addEventListener("click", async () => {
@@ -107,6 +109,7 @@ onAuthStateChanged(auth, async (user) => {
     menu?.classList.toggle("mostrar");
   });
 });
+
 
 
 // ------------ Modal info taller ------------ //
