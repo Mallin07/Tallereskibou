@@ -21,16 +21,17 @@ export const db = getFirestore(app);
 
 // ...............Función para guardar usuario en Firestore............
 
-export async function guardarUsuario(nombre, email) {
+import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; // asegúrate de importar setDoc
+
+export async function guardarUsuario(uid, nombre, email) {
   try {
-    const docRef = await addDoc(collection(db, "usuarios"), {
+    await setDoc(doc(db, "usuarios", uid), {
       nombre,
       email,
       cursos: []
     });
-    console.log("✅ Usuario guardado con ID:", docRef.id);
+    console.log("✅ Usuario guardado con UID:", uid);
   } catch (e) {
     console.error("❌ Error al guardar usuario:", e);
   }
 }
-

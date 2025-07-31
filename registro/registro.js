@@ -1,4 +1,4 @@
-// registro.js  //
+// registro.js
 import { auth, guardarUsuario } from "../firebase.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
@@ -20,7 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const credenciales = await createUserWithEmailAndPassword(auth, email, password);
-      await guardarUsuario(nombre, email);
+      const uid = credenciales.user.uid;
+
+      // ✅ Ahora pasamos UID junto con nombre y email
+      await guardarUsuario(uid, nombre, email);
+
       alert("✅ Registro exitoso. Sesión iniciada.");
       window.location.href = "../index.html";
     } catch (error) {
