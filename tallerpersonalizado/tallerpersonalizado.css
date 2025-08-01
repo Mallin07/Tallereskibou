@@ -224,13 +224,18 @@ header h1 {
 
 .subtalleres .subtalleres-grid {
   display: flex;
-  flex-wrap: nowrap;                  /* ✅ Fuerza una única fila */
-  overflow-x: auto;                   /* ✅ Habilita scroll horizontal */
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 10px;
   padding: 0 10px;
   scroll-snap-type: x mandatory;
   scroll-padding-left: 10px;
-  touch-action: auto; /* permite scroll vertical y horizontal en móviles */
+  -webkit-overflow-scrolling: touch;
+
+  /* 👇 Clave para permitir scroll vertical en móvil */
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y pan-x;
 }
 
 .subtalleres-grid::-webkit-scrollbar {
