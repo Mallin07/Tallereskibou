@@ -144,13 +144,12 @@ header h2 {
 }
 
 .talleres-contenedor {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 10px;
+  align-items: center;
 }
+
 
 
 .taller-box:hover {
@@ -172,113 +171,12 @@ header h2 {
   text-decoration: none;
 }
 
-/* -------------------- TALLER.HTML -------------------- */
 
-/* -------------------- GASTROTALLER.HTML -------------------- */
-
-.clase-taller {
-  color: #006411;
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-.personas {
-  color: #3843d6;
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-/* -------------------- GASTROTALLER PERSONALIZADO.HTML -------------------- */
-
-.escojer-clase-taller-box {
-  width: 300px;
-  height: 350px;
-  background-color: #fff8ee;
-  border: 2px solid #000;
-  border-radius: 20px;
-  padding: 20px;
-  margin: 40px auto;
-  text-align: center;
-  font-family: 'Arial', sans-serif;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.taller-header,
-.taller-body,
-.taller-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.taller-header {
-  min-height: 50px;
-}
-
-.taller-body {
-  flex-grow: 1;
-  padding: 10px 0;
-  min-height: 180px; /* garantiza espacio para la imagen */
-}
-
-.taller-footer {
-  min-height: 40px;
-}
-
-.escojer-clase-taller-box.active {
-  border-color: #006411;
-  box-shadow: 0 0 10px #006411;
-}
-
-/*-------- subtaller--------- */
-
-.subtalleres {
-  margin-top: 40px;
-  display: none; /* oculto por defecto */
-}
-
-.subtalleres.active {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  align-items: flex-start; /* para mantener alturas equilibradas */
-}
-
-.escojer-clase-subtaller-box {
-  width: 300px;
-  height: 350px;
-  background-color: #fff8ee;
-  border: 2px solid #000;
-  border-radius: 20px;
-  padding: 20px;
-  margin: 40px;
-  text-align: center;
-  font-family: 'Arial', sans-serif;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.escojer-clase-subtaller-box.active {
-  border-color: #006411;
-  box-shadow: 0 0 10px #006411;
-}
-
-.escojer-clase-subtaller-box:hover {
-  transform: translateY(-8px); /* Eleva ligeramente la caja */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra elegante */
-  cursor: pointer;
-}
 
 /* ---------------------------------ventana información talleres----------------------------------- */
 .taller-box {
-  position: relative;
+  width: 100%;
+  max-width: 300px;
 }
 
 .info-modal {
@@ -315,32 +213,4 @@ header h2 {
 .boton-info:hover {
   background-color: #e67e22;
 }
-
-
-/* ---------------------------------Inscripciones----------------------------------- */
-
-.boton-inscribirse {
-  padding: 10px 20px;
-  background-color: #006411;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.boton-inscribirse:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
-}
-
-.boton-inscribirse.inscrito {
-  background-color: #e74c3c; /* rojo fuerte */
-  color: white;
-}
-
-.boton-inscribirse.inscrito:hover {
-  background-color: #c0392b; /* rojo más oscuro al pasar el mouse */
-}
-
 
