@@ -71,12 +71,12 @@ header h2 {
 /* ------------------- Caja taller------------------------ */
 
 .talleres-contenedor {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  margin: 40px 0;         /* ✅ elimina auto para respetar el padre */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 40px 0;
   padding: 0;
-  justify-content: center; /* 👈 Esto centra las cajas horizontalmente si sobran espacios */
+  align-items: center; /* ✅ centra las cajas dentro del contenedor */
 }
 
 .taller-box {
