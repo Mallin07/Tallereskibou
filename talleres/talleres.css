@@ -76,6 +76,7 @@ header h2 {
   gap: 10px;
   margin: 40px 0;         /* ✅ elimina auto para respetar el padre */
   padding: 0;
+  justify-content: center; /* 👈 Esto centra las cajas horizontalmente si sobran espacios */
 }
 
 .taller-box {
