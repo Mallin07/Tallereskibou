@@ -82,6 +82,7 @@ header h2 {
 .taller-box {
   background-color: #fff8ee;
   border: 2px solid #000;
+  width: 300px;
   border-radius: 20px;
   padding: 20px;
   text-align: center;
