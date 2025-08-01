@@ -12,18 +12,10 @@ body {
 
 .contenido-fijo-350 {
   width: 100%;
-  max-width: 360px;     /* ✅ Limita el ancho en pantallas grandes */
+  max-width: 360px;
   margin: 0 auto;
   padding: 0 10px;
 }
-
-
-.contenido-fijo-350 {
-  width: 360px;
-  margin: 0 auto;      /* ✅ centra en pantallas más grandes */
-  padding: 0 10px;     /* ✅ algo de espacio interno opcional */
-}
-
 /* ========== HEADER Y TÍTULOS ========== */
 
 header {
