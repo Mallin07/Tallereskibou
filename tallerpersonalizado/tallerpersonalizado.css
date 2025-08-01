@@ -230,7 +230,6 @@ header h1 {
   padding: 0 10px;
   scroll-snap-type: x mandatory;
   scroll-padding-left: 10px;
-  -webkit-overflow-scrolling: touch; /* suaviza en iOS */
   touch-action: auto; /* permite scroll vertical y horizontal en móviles */
 }
 
