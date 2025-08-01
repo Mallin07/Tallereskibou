@@ -53,7 +53,8 @@ header h2 {
 
 #usuario-activo.oculto {
   visibility: hidden;
-  display: block !important; /* mantiene su espacio centrado aunque no se vea */
+  display: block; /* asegura que ocupe espacio */
+  margin: 0 auto; /* asegura que se centre mientras esté oculto */
 }
 
 .usuario-nombre {
@@ -93,7 +94,9 @@ header h2 {
 }
 
 .oculto {
-  display: none !important;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 
