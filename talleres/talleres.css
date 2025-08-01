@@ -254,15 +254,15 @@ header h2 {
 /* ---------------------------------adaptación mobiles----------------------------------- */
 
 @media (max-width: 450px) {
-.talleres-contenedor {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  justify-content: center; /* ✅ centra cuando hay menos columnas */
-  padding: 10px;
-  width: 100%;
-  max-width: 100%;
-}
+  .talleres-contenedor {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 360px;     /* ✅ igual que .contenido-fijo-350 */
+    margin: 0 auto;       /* ✅ centrado horizontal */
+  }
 
 
   .escojer-clase-taller-box {
