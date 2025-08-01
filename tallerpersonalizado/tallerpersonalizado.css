@@ -204,18 +204,18 @@ header h1 {
 
 /* Textos de disponibilidad */
 .disponibilidad {
-  text-align: center;
   font-size: 0.7em;
   color: #0c0fdf;
   font-weight: bold;
+  text-align: center;
+  margin: 0;               /* ✅ Asegura que no hay márgenes inesperados */
 }
 
-/* Textos de disponibilidad */
-.disponibilidad {
-  text-align: center;
-  font-size: 0.7em;
-  color: #0c0fdf;
-  font-weight: bold;
+.taller-footer {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente si hace falta */
+  min-height: 30px;        /* Asegura altura consistente */
 }
 
 /* ========== SUBTALLERES ========== */
