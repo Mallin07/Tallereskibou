@@ -230,6 +230,7 @@ header h1 {
   padding: 0 10px;
   scroll-snap-type: x mandatory;
   scroll-padding-left: 10px;
+  -webkit-overflow-scrolling: touch; /* suaviza en iOS */
 }
 
 .subtalleres-grid::-webkit-scrollbar {
@@ -251,6 +252,8 @@ header h1 {
   justify-content: space-between;
   margin: 3px;
   scroll-snap-align: start;
+  will-change: transform; /* fuerza suavidad al desplazarse */
+  transform: translateZ(0); /* mejora renderizado en algunos navegadores */
 }
 
 .escojer-clase-subtaller-box.active {
@@ -407,17 +410,3 @@ header h1 {
   z-index: 10;
 }
 
-/* -------------adaptación mobil evitar desplazamiento sub taller-----------*/
-@media (max-width: 600px) {
-  .subtalleres .subtalleres-grid {
-    flex-wrap: wrap;          /* Permite varias filas */
-    overflow-x: visible;      /* Desactiva scroll horizontal */
-    justify-content: center;  /* Centra si son pocas cajas */
-  }
-
-  .escojer-clase-subtaller-box {
-    width: 100%;
-    max-width: 200px;
-    margin: 10px auto;
-  }
-}
