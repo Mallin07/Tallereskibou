@@ -98,12 +98,11 @@ header h2 {
 /* ------------------- CAJA TALLER ------------------------ */
 
 .talleres-contenedor {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;                    /* ✅ cambiamos de grid a flex */
+  flex-direction: column;          /* ✅ una caja encima de otra */
+  align-items: center;             /* ✅ centradas horizontalmente */
   gap: 20px;
-  max-width: 1000px;
   margin: 40px auto;
-  padding: 0 10px;
 }
 
 .taller-box {
@@ -118,6 +117,7 @@ header h2 {
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 300px; 
   width: 100%;
   height: 100%;
   position: relative;
