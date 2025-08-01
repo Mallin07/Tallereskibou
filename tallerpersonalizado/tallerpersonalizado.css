@@ -231,6 +231,7 @@ header h1 {
   scroll-snap-type: x mandatory;
   scroll-padding-left: 10px;
   -webkit-overflow-scrolling: touch; /* suaviza en iOS */
+  touch-action: auto; /* permite scroll vertical y horizontal en móviles */
 }
 
 .subtalleres-grid::-webkit-scrollbar {
