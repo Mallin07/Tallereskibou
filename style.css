@@ -38,7 +38,7 @@ header h2 {
 /* ------------------- botón usuario------------------------ */
 
 .usuario-box {
-  display: block;                     /* ✅ cambia de flex a block para apilar verticalmente */
+  display: none;                     /* ✅ cambia de flex a block para apilar verticalmente */
   margin: 20px auto;
   padding: 12px 16px;
   background: #ffffff;
@@ -50,6 +50,10 @@ header h2 {
   font-weight: bold;
   font-size: 1em;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.usuario-box.visible {
+  display: block;
 }
 
 #usuario-activo.oculto {
