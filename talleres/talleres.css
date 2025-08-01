@@ -51,6 +51,11 @@ header h2 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+#usuario-activo.oculto {
+  visibility: hidden;
+  display: block !important; /* mantiene su espacio centrado aunque no se vea */
+}
+
 .usuario-nombre {
   font-weight: bold;
   cursor: pointer;
