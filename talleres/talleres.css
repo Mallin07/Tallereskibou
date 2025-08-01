@@ -93,8 +93,6 @@ header h2 {
   justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  width: 100%;          /* ocupa todo el espacio disponible del grid */
-
 }
 
 .titulo-taller {
