@@ -23,6 +23,14 @@ header h2 {
   color: #e67e22; /* Color naranja llamativo para "KIBOU" */
 }
 
+.contenido-fijo-350 {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 0 10px; /* para espacio lateral */
+  box-sizing: border-box;
+}
+
 /* ------------------- botón usuario------------------------ */
 
 .usuario-box {
