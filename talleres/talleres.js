@@ -23,7 +23,7 @@ onAuthStateChanged(auth, async (user) => {
   const email = user?.email || null;
 
   if (user) {
-    if (box) box.style.display = "inline-block";
+    if (box) box.classList.remove("oculto");
     if (botonesAuth) botonesAuth.style.display = "none";
 
     const docRef = doc(db, "usuarios", user.uid);
@@ -32,7 +32,7 @@ onAuthStateChanged(auth, async (user) => {
       ? `👤 ${docSnap.data().nombre}`
       : `👤 ${user.email}`;
   } else {
-    if (box) box.style.display = "none";
+    if (box) box.classList.add("oculto");
     if (botonesAuth) botonesAuth.style.display = "flex";
   }
 
