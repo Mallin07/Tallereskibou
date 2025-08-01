@@ -184,7 +184,7 @@ header h2 {
   width: 100%;
   max-width: 250px;   /* limita su tamaño máximo */
   height: 180px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 30px;
   display: block;
   margin: 0 auto 15px auto;
