@@ -149,7 +149,7 @@ header h1 {
 /* Caja individual */
 .escojer-clase-taller-box {
   flex: 0 0 auto;
-  width: 95px;
+  width: 100px;
   height: 250px;
   background-color: #fff8ee;
   border: 2px solid #000;
