@@ -10,19 +10,21 @@
 <body>
   <div class="contenido-fijo-350">
 
-      <div id="usuario-activo" class="usuario-box oculto">
-        <span id="nombre-usuario" class="usuario-nombre"></span>
-        <div class="usuario-menu" id="menu-usuario">
-        <span id="correo-usuario"></span><br>
+    <!-- Fila 1: Botón usuario -->
+    <div id="usuario-activo" class="usuario-box">
+      <span id="nombre-usuario" class="usuario-nombre">Nombre Usuario</span>
+      <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario">correo@ejemplo.com</span><br>
         <button id="cerrar-sesion">Cerrar sesión</button>
-        </div> 
-       </div>
+      </div> 
+    </div>
 
+    <!-- Fila 2: Título -->
     <header>
       <h1>Talleres</h1>
     </header>
 
-
+    <!-- Fila 3: Contenido principal -->
     <main>
       <div class="talleres-contenedor">
 
@@ -33,7 +35,6 @@
           <p class="dificultad-taller">4-6 personas</p>
           <button class="boton-personalizar-taller">Personalizar taller</button>
           <button class="boton-info">Ver información</button>
-
           <div class="info-modal oculto">
             <p>
               Si sois entre 4 y 6 personas, personalizad vuestro taller en la web a vuestro gusto.
@@ -51,7 +52,6 @@
           <p class="plazas-disponibles">Plazas disponibles: <span class="contador">0</span></p>
           <button class="boton-inscribirse">Inscribirse</button>
           <button class="boton-info">Ver información</button>
-
           <div class="info-modal oculto">
             <p>
               En este taller aprenderás a crear pendientes únicos usando arcilla polimérica con técnicas
@@ -62,11 +62,9 @@
 
       </div>
     </main>
-
   </div>
 
   <script type="module" src="../firebase.js"></script>  
   <script type="module" src="talleres.js"></script>
-
 </body>
 </html>
