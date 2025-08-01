@@ -38,7 +38,7 @@ header h2 {
 /* ------------------- botón usuario------------------------ */
 
 .usuario-box {
-  display: none;                     /* ✅ cambia de flex a block para apilar verticalmente */
+  display: none;
   margin: 20px auto;
   padding: 12px 16px;
   background: #ffffff;
