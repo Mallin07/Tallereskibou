@@ -72,9 +72,8 @@ header h2 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
-  max-width: 450px;
-  margin: 40px auto;
-  padding: 0 10px;
+  margin: 40px 0;         /* ✅ elimina auto para respetar el padre */
+  padding: 0;
 }
 
 .taller-box {
