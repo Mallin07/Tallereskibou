@@ -266,10 +266,6 @@ header h1 {
   cursor: pointer;
 }
 
-.subtalleres .subtalleres-grid {
-  overscroll-behavior-x: contain;
-  touch-action: pan-x;
-}
 
 /* ========== MODAL / INFO ADICIONAL ========== */
 
