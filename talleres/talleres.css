@@ -28,7 +28,8 @@ header h2 {
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 10px; /* para espacio lateral */
+  box-sizing: border-box;
 }
 
 /* ------------------- botón usuario------------------------ */
@@ -252,70 +253,3 @@ header h2 {
   font-size: 1em;
 }
 
-/* ---------------------------------adaptación mobiles----------------------------------- */
-
-@media (max-width: 450px) {
-  .talleres-contenedor {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    padding: 10px;
-    width: 100%;
-    max-width: 360px;     /* ✅ igual que .contenido-fijo-350 */
-    margin: 0 auto;       /* ✅ centrado horizontal */
-  }
-
-
-  .escojer-clase-taller-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;             /* se adapta al contenedor */
-    width: 100%;
-    margin: 0;
-    padding: 8px;
-    font-size: 0.8rem;
-    box-sizing: border-box;
-  }
-
-  .taller-box {
-    width: 100%;
-    height: auto;
-    padding: 10px;
-    font-size: 0.8rem;
-    box-sizing: border-box;
-  }
-
-
-  .imagen-taller {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    max-height: 100px;
-  }
-
-  .usuario-box {
-    position: static;
-    margin: 10px auto;
-    width: 90%;
-    max-width: 300px;
-    transform: none;
-  }
-
-  .boton-inscribirse {
-    font-size: 0.8rem;
-    padding: 6px 10px;
-  }
-
-  .taller-header h2 {
-    font-size: 0.9em;
-    text-align: center;
-  }
-
-  .personas {
-    font-size: 0.8em;
-  }
-
-  
-}
