@@ -181,8 +181,8 @@ header h2 {
 }
 
 .imagen-gastrotaller {
-  width: 365px;
-  height: 250px;
+  width: 250px;
+  height: 180px;
   object-fit: cover;
   border-radius: 30px;
   display: block;
