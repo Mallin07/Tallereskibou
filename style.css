@@ -137,15 +137,21 @@ header h2 {
   color: #000000;
 }
 
-.imagen-taller,
+.imagen-taller {
+  width: 180px;
+  height: 180px;
+  border-radius: 30px;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
 .imagen-gastro {
-  width: 100%;               /* ✅ ocupa todo el ancho de la caja */
-  max-width: 180px;          /* ✅ límite visual uniforme */
+  width: 365px;
   height: 180px;
   object-fit: cover;
   border-radius: 30px;
   display: block;
-  margin: 0 auto 15px auto;  /* ✅ centrado y espacio inferior */
+  margin: 0 auto 15px auto; /* ✅ centra horizontalmente */
 }
 
 /* ------------------- ENLACES ------------------------ */
