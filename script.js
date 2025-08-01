@@ -52,14 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      if (box) box.style.display = "inline-block";
+      if (box) box.classList.add("visible");
       if (botonesAuth) botonesAuth.style.display = "none";
 
       const docRef = doc(db, "usuarios", user.uid);
       const docSnap = await getDoc(docRef);
-      nombre.textContent = docSnap.exists() ? `👤 ${docSnap.data().nombre}` : `👤 ${user.email}`;
+      nombre.textContent = docSnap.exists()
+        ? `👤 ${docSnap.data().nombre}`
+        : `👤 ${user.email}`;
     } else {
-      if (box) box.style.display = "none";
+      if (box) box.classList.remove("visible");
       if (botonesAuth) botonesAuth.style.display = "flex";
     }
   });
