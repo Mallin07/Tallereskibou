@@ -1,7 +1,9 @@
 body {
   font-family: Arial, sans-serif;
   padding: 15px;
+  background-color: #fcf1e0ff;
 }
+
 
 /* ------------------- HEADER ------------------------ */
 
@@ -17,7 +19,7 @@ header h1 {
 
 header h2 {
   font-size: 1.0em;
-  color: #555;
+  color: #1b1b1b;
   font-weight: normal;
 }
 

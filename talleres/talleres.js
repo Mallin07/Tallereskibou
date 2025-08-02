@@ -16,6 +16,7 @@ import {
 onAuthStateChanged(auth, async (user) => {
   const box = document.getElementById("usuario-activo");
   const nombre = document.getElementById("nombre-usuario");
+  const correo = document.getElementById("correo-usuario");  
   const cerrar = document.getElementById("cerrar-sesion");
   const menu = document.getElementById("menu-usuario");
   const botonesAuth = document.querySelector(".auth-buttons");
@@ -31,6 +32,7 @@ onAuthStateChanged(auth, async (user) => {
     nombre.textContent = docSnap.exists()
       ? `👤 ${docSnap.data().nombre}`
       : `👤 ${user.email}`;
+      if (correo) correo.textContent = user.email;
   } else {
     if (box) box.classList.add("oculto");
     if (botonesAuth) botonesAuth.style.display = "flex";

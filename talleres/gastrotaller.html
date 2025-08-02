@@ -8,20 +8,25 @@
 </head>
 
 <body>
-  <header>
-    <div id="usuario-activo" class="usuario-box" style="display: none;">
-   <span id="nombre-usuario" class="usuario-nombre"></span>
-   <div class="usuario-menu" id="menu-usuario">
-    <span id="correo-usuario"></span><br>
-    <button id="cerrar-sesion">Cerrar sesión</button>
-   </div>
-   </div>
-   
-    <h1>Gastrotalleres</h1>
-  </header>
+  <div class="contenido-fijo-350">
 
-<div class="talleres-contenedor"> 
-  <section class="taller-box">
+    <!-- Fila 1: Botón usuario -->
+    <div id="usuario-activo" class="usuario-box">
+      <span id="nombre-usuario" class="usuario-nombre">Nombre Usuario</span>
+      <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario">correo@ejemplo.com</span><br>
+        <button id="cerrar-sesion">Cerrar sesión</button>
+      </div> 
+    </div>
+
+    <!-- Fila 2: Título -->
+    <header>
+      <h1>Talleres</h1>
+    </header>
+  
+  <main>
+    <div class="talleres-contenedor"> 
+    <section class="taller-box">
     
     <h2 class="titulo-taller">Gastrotaller personalizado</h2>
     <img src="assets/gastrotaller.png" alt="Taller" class="imagen-gastrotaller">
@@ -40,6 +45,7 @@
       </p>
     </div>
   </section>
+  </main>
 </div>
   
 <script type="module" src="../firebase.js"></script>  

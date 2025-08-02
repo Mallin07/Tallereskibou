@@ -46,6 +46,7 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase
 document.addEventListener("DOMContentLoaded", () => {
   const box = document.getElementById("usuario-activo");
   const nombre = document.getElementById("nombre-usuario");
+  const correo = document.getElementById("correo-usuario");
   const cerrar = document.getElementById("cerrar-sesion");
   const menu = document.getElementById("menu-usuario");
   const botonesAuth = document.querySelector(".auth-buttons");
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nombre.textContent = docSnap.exists()
         ? `👤 ${docSnap.data().nombre}`
         : `👤 ${user.email}`;
+        if (correo) correo.textContent = user.email;  
     } else {
       if (box) box.classList.remove("visible");
       if (botonesAuth) botonesAuth.style.display = "flex";
