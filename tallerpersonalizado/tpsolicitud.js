@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       alert("✅ Tu solicitud ha sido enviada con éxito.");
-      window.location.href = "/Tallereskibou/index.html";
+      window.location.href = "../index.html";
     } catch (err) {
       console.error("Error al enviar solicitud:", err);
       alert("❌ Error al enviar la solicitud.");
