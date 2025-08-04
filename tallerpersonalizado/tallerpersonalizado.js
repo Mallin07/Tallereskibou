@@ -1,68 +1,67 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // ------------------ Botón usuario ------------------ //
-  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+// ------------------ Firebase imports ------------------ //
+import { auth, db } from "../firebase.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ------------------ Subtaller desde URL (global) ------------------ //
+const params = new URLSearchParams(window.location.search);
+const subtaller = params.get('subtaller');
+
+// ------------------ Mostrar u ocultar usuario ------------------ //
+onAuthStateChanged(auth, async (user) => {
   const box = document.getElementById("usuario-activo");
   const nombre = document.getElementById("nombre-usuario");
   const correo = document.getElementById("correo-usuario");
   const cerrar = document.getElementById("cerrar-sesion");
   const menu = document.getElementById("menu-usuario");
-  const botonesAuth = document.querySelector(".auth-buttons");
 
-  if (usuario && box && nombre && correo && cerrar && menu) {
-    box.classList.remove("oculto");
-    nombre.textContent = `👤 ${usuario.nombre}`;
-    correo.textContent = `📧 ${usuario.email}`;
+  if (user) {
+    box?.classList.remove("oculto");
 
-    if (botonesAuth) {
-      botonesAuth.style.display = "none";
-    }
+    const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+    nombre.textContent = docSnap.exists() ? `👤 ${docSnap.data().nombre}` : `👤 ${user.email}`;
+    correo.textContent = `📧 ${user.email}`;
 
-    nombre.addEventListener("click", () => {
-      menu.classList.toggle("mostrar");
+    nombre?.addEventListener("click", () => {
+      menu?.classList.toggle("mostrar");
     });
 
-    cerrar.addEventListener("click", () => {
-      localStorage.removeItem("usuarioActivo");
+    cerrar?.addEventListener("click", async () => {
+      await signOut(auth);
       alert("Has cerrado sesión.");
       window.location.reload();
     });
-  }
 
-  // ------------------ Selección taller ------------------ //
+  } else {
+    box?.classList.add("oculto");
+  }
+});
+
+// ------------------ Lógica del DOM ------------------ //
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Selección de taller
   document.querySelectorAll('.escojer-clase-taller-box').forEach(box => {
     box.addEventListener('click', () => {
       const selected = box.dataset.taller;
-
-      document.querySelectorAll('.subtalleres').forEach(div => {
-        div.classList.remove('active');
-      });
-
-      document.querySelectorAll('.escojer-clase-taller-box').forEach(b => {
-        b.classList.remove('active');
-      });
-
+      document.querySelectorAll('.subtalleres').forEach(div => div.classList.remove('active'));
+      document.querySelectorAll('.escojer-clase-taller-box').forEach(b => b.classList.remove('active'));
       box.classList.add('active');
 
       const target = document.getElementById(`${selected}-subtalleres`);
-      if (target) {
-        target.classList.add('active');
-      }
+      if (target) target.classList.add('active');
     });
   });
 
-  // ------------------ Botón solicitud ------------------ //
-  const botones = document.querySelectorAll('.boton-solicitud');
-  botones.forEach(boton => {
+  // Botones de solicitud
+  document.querySelectorAll('.boton-solicitud').forEach(boton => {
     boton.addEventListener('click', function () {
       const subtaller = this.closest('.escojer-clase-subtaller-box').dataset.subtaller;
       window.location.href = `tpsolicitud.html?subtaller=${encodeURIComponent(subtaller)}`;
     });
   });
 
-  // ------------------ Mostrar título desde URL ------------------ //
-  const params = new URLSearchParams(window.location.search);
-  const subtaller = params.get('subtaller');
-
+  // Título dinámico del taller
   const titulo = document.getElementById('titulo-subtaller');
   if (subtaller && titulo) {
     const nombreMostrar = {
@@ -73,22 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
     titulo.textContent = nombreMostrar;
   }
 
-  // ------------------ Suma de precios formulario ------------------ //
+  // Cálculo de precios
   const numPersonasInput = document.getElementById('num-personas');
   const bloquearCheckbox = document.getElementById('bloquear-acceso');
-  const bebidaSelect = document.getElementById('bebidas');
   const detalleFactura = document.getElementById('detalle-factura');
   const totalEuros = document.getElementById('total-euros');
 
   const precios = {
-    terracota: {
-      porPersona: 45,
-      bloqueo: { 4: 40, 5: 20, 6: 0 }
-    },
-    flores: {
-      porPersona: 55,
-      bloqueo: { 4: 50, 5: 25, 6: 0 }
-    }
+    terracota: { porPersona: 45, bloqueo: { 4: 40, 5: 20, 6: 0 } },
+    flores: { porPersona: 55, bloqueo: { 4: 50, 5: 25, 6: 0 } }
   };
 
   function calcularTotal() {
@@ -117,29 +109,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Escuchar cambios en el formulario
+  // Eventos para recalcular
   if (numPersonasInput) numPersonasInput.addEventListener('change', calcularTotal);
   if (bloquearCheckbox) bloquearCheckbox.addEventListener('change', calcularTotal);
   document.querySelectorAll('#lista-bebidas input[type="checkbox"]').forEach(cb => {
-  cb.addEventListener('change', calcularTotal);
+    cb.addEventListener('change', calcularTotal);
   });
 
-  calcularTotal(); // Ejecutar al inicio si todo está presente
+  calcularTotal();
 
-  // ------------------ Mostrar/Ocultar lista de bebidas ------------------ //
-const toggleBebidas = document.getElementById('toggle-bebidas');
-const listaBebidas = document.getElementById('lista-bebidas');
-
-if (toggleBebidas && listaBebidas) {
-  toggleBebidas.addEventListener('click', () => {
-    listaBebidas.classList.toggle('oculto');
-
-    // Cambiar flechita visual ▼ ▲
-    toggleBebidas.textContent = listaBebidas.classList.contains('oculto')
-      ? 'Seleccionar bebidas ▼'
-      : 'Ocultar bebidas ▲';
-  });
-}
-
+  // Mostrar/ocultar bebidas
+  const toggleBebidas = document.getElementById('toggle-bebidas');
+  const listaBebidas = document.getElementById('lista-bebidas');
+  if (toggleBebidas && listaBebidas) {
+    toggleBebidas.addEventListener('click', () => {
+      listaBebidas.classList.toggle('oculto');
+      toggleBebidas.textContent = listaBebidas.classList.contains('oculto')
+        ? 'Seleccionar bebidas ▼'
+        : 'Ocultar bebidas ▲';
+    });
+  }
 });
-
