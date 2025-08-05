@@ -175,10 +175,11 @@ header h1 {
 
 /* Imagen de taller */
 .imagen-taller {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 .imagen-taller2 {
@@ -255,24 +256,102 @@ header h1 {
   cursor: pointer;
 }
 
+/* ========== COMIDAS ========== */
+
+.caja-comida {
+  flex: 0 0 auto;
+  width: 95px;
+  height: 250px;
+  background-color: #fff8ee;
+  border: 2px solid #000;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 3px;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+.caja-comida:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  cursor: default; /* No "pointer" porque no es seleccionable */
+}
+
+.comida {
+  display: none;
+  margin-top: 40px;
+}
+
+.comida.active {
+  display: block;
+}
+
+.comida-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 0 10px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 10px;
+}
+
+.comida-grid::-webkit-scrollbar {
+  display: none;
+}
+
 /* ========== MODAL / INFO ADICIONAL ========== */
 
 .taller-box {
   position: relative;
 }
 
+.taller-header {
+  height: 45px; /* 🔧 Fijo para todas las cajas */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.taller-body {
+  height: 80px; /* 🔧 Igual para todas, asegura que las imágenes no se desplacen */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.taller-footer {
+  height: 85px; /* Reducido desde 100px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding-top: 5px;
+  margin-top: auto;
+}
+
 .info-modal {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #fffdf6;
   border: 2px solid #000;
   border-radius: 10px;
   padding: 20px;
-  z-index: 10;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  max-width: 90%;
+  z-index: 9999;
+  width: 360px;        /* Más ancho */
+  max-width: 95%;      /* Que no sobrepase pantallas pequeñas */
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .oculto {
@@ -281,43 +360,113 @@ header h1 {
 
 /* ========== BOTONES ========== */
 
+
 .boton-info {
-  margin-top: 10px;
-  background-color: #f39c12;
+  width: 70px;
+  background-color: #e9740e;
   color: white;
+  padding: 4px 6px;
   border: none;
-  padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1em;
-  font-family: Arial, sans-serif;
-  transition: background-color 0.3s ease;
+  font-size: 0.75em;
+  display: block;
+  margin: 4px auto 0;
 }
 
-.boton-info:hover {
-  background-color: #e67e22;
-}
-
-.boton-inscribirse {
-  padding: 10px 20px;
+/* Botón "Solicitud" (usado dentro de cajas de comida) */
+.boton-solicitud {
+  width: 70px;
   background-color: #006411;
   color: white;
+  padding: 4px 6px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 0.75em;
+  display: block;
+  margin: 4px auto 0;
 }
 
-.boton-inscribirse:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
-}
-
-.boton-inscribirse.inscrito {
-  background-color: #e74c3c;
+/* Botón de formulario general */
+.boton-formulario {
+  background-color: #006411;
   color: white;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 3px;
+  display: block;
+  margin: 20px auto 0;
 }
 
-.boton-inscribirse.inscrito:hover {
-  background-color: #c0392b;
+
+/* ========== Solicitud ========== */
+
+.formulario-taller {
+  background: #fff8ee;
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 1em;
+  font-family: Arial, sans-serif;
 }
+
+.formulario-taller label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: bold;
+}
+
+.formulario-taller select,
+.formulario-taller input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.factura-box {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-bebidas {
+  position: relative;
+  width: 100%;
+  margin-top: 15px;
+}
+
+#toggle-bebidas {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+}
+
+#toggle-bebidas:hover {
+  background-color: #d35400;
+}
+
+.bebidas-opciones {
+  position: absolute;
+  width: 100%;
+  background: #fff8ee;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 5px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+

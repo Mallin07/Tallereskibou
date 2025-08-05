@@ -3,10 +3,11 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 import { doc, getDoc, addDoc, collection, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // ------------------ Parámetros URL ------------------ //
   const params = new URLSearchParams(window.location.search);
   const subtaller = params.get('subtaller');
   const tipo = params.get('tipo') || 'taller';
+  const comida = params.get('comida');  // Nuevo
+
 
   // ------------------ Botón usuario ------------------ //
   const box = document.getElementById("usuario-activo");
@@ -36,17 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ------------------ Título dinámico ------------------ //
-  const titulo = document.getElementById('titulo-subtaller');
-  if (subtaller && titulo) {
-    const nombreMostrar = {
-      'terracota': 'Taller de pendientes terracota o marmolado',
-      'flores': 'Taller de pendientes de flores'
-    }[subtaller] || subtaller;
+const titulo = document.getElementById('titulo-subtaller');
+if (subtaller && titulo) {
+  const nombreMostrar = {
+    'terracota': 'pendientes terracota o marmolado',
+    'flores': 'pendientes de flores'
+  }[subtaller] || subtaller;
 
-    titulo.textContent = tipo === 'gastrotaller'
-      ? `Gastrotaller: ${nombreMostrar}`
-      : `Taller: ${nombreMostrar}`;
-  }
+  const comidaMostrar = {
+    'carne': 'con carne, pescado y vegetales',
+    'pescado': 'con pescado y vegetales',
+    'vegetariano': 'solo vegetales'
+  }[comida] || '';
+
+  titulo.textContent = tipo === 'gastrotaller'
+    ? `Gastrotaller: ${nombreMostrar} ${comidaMostrar ? `(${comidaMostrar})` : ''}`
+    : `Taller: ${nombreMostrar}`;
+}
+
 
   // ------------------ Suma de precios ------------------ //
   const numPersonasInput = document.getElementById('num-personas');
@@ -55,8 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalEuros = document.getElementById('total-euros');
 
   const precios = {
-    terracota: { porPersona: 45, bloqueo: { 4: 40, 5: 20, 6: 0 } },
-    flores: { porPersona: 55, bloqueo: { 4: 50, 5: 25, 6: 0 } }
+    terracota: { porPersona: 59, bloqueo: { 4: 59, 5: 29, 6: 0 } },
+    flores: { porPersona: 65, bloqueo: { 4: 65, 5: 32, 6: 0 } }
   };
 
   function calcularTotal() {
@@ -124,16 +132,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(cb => cb.dataset.nombre);
 
     try {
-      await addDoc(collection(db, "reservas"), {
-        uid: user.uid,
-        subtaller,
-        tipo,
-        fecha,
-        personas,
-        bloqueo,
-        bebidas,
-        enviadoEn: Timestamp.now()
-      });
+await addDoc(collection(db, "reservas"), {
+  uid: user.uid,
+  subtaller,
+  tipo,
+  comida, // <-- añade esta línea
+  fecha,
+  personas,
+  bloqueo,
+  bebidas,
+  enviadoEn: Timestamp.now()
+});
 
       alert("✅ Tu solicitud ha sido enviada con éxito.");
       window.location.href = "/Tallereskibou/";
