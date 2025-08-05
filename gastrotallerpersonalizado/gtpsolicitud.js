@@ -121,8 +121,13 @@ if (subtaller && titulo) {
     const user = auth.currentUser;
     if (!user) {
       alert("Debes iniciar sesión para enviar tu solicitud.");
-      return;
+    return;
     }
+
+    // Obtener datos del usuario desde Firestore
+    const docSnap = await getDoc(doc(db, "usuarios", user.uid));
+    const nombreUsuario = docSnap.exists() ? docSnap.data().nombre : '';
+    const correoUsuario = user.email;
 
     const fecha = document.getElementById("fecha-propuesta")?.value;
     const personas = document.getElementById("num-personas")?.value;
@@ -132,11 +137,14 @@ if (subtaller && titulo) {
       .map(cb => cb.dataset.nombre);
 
     try {
+      
 await addDoc(collection(db, "reservas"), {
   uid: user.uid,
+  nombre: nombreUsuario,
+  correo: correoUsuario,
   subtaller,
   tipo,
-  comida, // <-- añade esta línea
+  comida,
   fecha,
   personas,
   bloqueo,
