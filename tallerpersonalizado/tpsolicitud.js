@@ -105,50 +105,57 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ------------------ Envío de solicitud ------------------ //
-  const form = document.getElementById("formulario-taller");
-  form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
+// ------------------ Envío de solicitud ------------------ //
+const form = document.getElementById("formulario-taller");
+form?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Debes iniciar sesión para enviar tu solicitud.");
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Debes iniciar sesión para enviar tu solicitud.");
     return;
-    }
+  }
 
-    // Obtener datos del usuario desde Firestore
+  // 🔹 Obtener nombre y correo del usuario
+  let nombreUsuario = "";
+  const correoUsuario = user.email;
+
+  try {
     const docSnap = await getDoc(doc(db, "usuarios", user.uid));
-    const nombreUsuario = docSnap.exists() ? docSnap.data().nombre : '';
-    const correoUsuario = user.email;
+    if (docSnap.exists()) {
+      nombreUsuario = docSnap.data().nombre || "";
+    }
+  } catch (error) {
+    console.warn("No se pudo obtener el nombre del usuario:", error);
+  }
 
-    const fecha = document.getElementById("fecha-propuesta")?.value;
-    const personas = document.getElementById("num-personas")?.value;
-    const bloqueo = document.getElementById("bloquear-acceso")?.checked;
+  const fecha = document.getElementById("fecha-propuesta")?.value;
+  const personas = document.getElementById("num-personas")?.value;
+  const bloqueo = document.getElementById("bloquear-acceso")?.checked;
 
-    const bebidas = Array.from(document.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked'))
-      .map(cb => cb.dataset.nombre);
+  const bebidas = Array.from(document.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked'))
+    .map(cb => cb.dataset.nombre);
 
-    try {
-      
-await addDoc(collection(db, "reservas"), {
-  uid: user.uid,
-  nombre: nombreUsuario,
-  correo: correoUsuario,
-  subtaller,
-  tipo,
-  comida,
-  fecha,
-  personas,
-  bloqueo,
-  bebidas,
-  enviadoEn: Timestamp.now()
+  try {
+    await addDoc(collection(db, "reservas"), {
+      uid: user.uid,
+      nombre: nombreUsuario,
+      correo: correoUsuario,
+      subtaller,
+      tipo,
+      fecha,
+      personas,
+      bloqueo,
+      bebidas,
+      enviadoEn: Timestamp.now()
+    });
+
+    alert("✅ Tu solicitud ha sido enviada con éxito.");
+    window.location.href = "/Tallereskibou/";
+  } catch (err) {
+    console.error("Error al enviar solicitud:", err);
+    alert("❌ Error al enviar la solicitud.");
+  }
 });
 
-      alert("✅ Tu solicitud ha sido enviada con éxito.");
-      window.location.href = "/Tallereskibou/";
-    } catch (err) {
-      console.error("Error al enviar solicitud:", err);
-      alert("❌ Error al enviar la solicitud.");
-    }
-  });
 });
