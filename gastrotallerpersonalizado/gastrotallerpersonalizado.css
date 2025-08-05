@@ -150,7 +150,7 @@ header h1 {
 .escojer-clase-taller-box {
   flex: 0 0 auto;
   width: 95px;
-  height: 210px;
+  height: 270px;
   background-color: #fff8ee;
   border: 2px solid #000;
   border-radius: 20px;
@@ -232,7 +232,7 @@ header h1 {
 .escojer-clase-subtaller-box {
   flex: 0 0 auto;
   width: 95px;
-  height: 250px;
+  height: 270px;
   background-color: #fff8ee;
   border: 2px solid #000;
   border-radius: 20px;
@@ -261,7 +261,7 @@ header h1 {
 .caja-comida {
   flex: 0 0 auto;
   width: 95px;
-  height: 250px; /* 🔒 Fijo para todas */
+  height: 270px; /* 🔒 Fijo para todas */
   background-color: #fff8ee;
   border: 2px solid #000;
   border-radius: 20px;
@@ -273,6 +273,7 @@ header h1 {
   margin: 3px;
   scroll-snap-align: start;
   overflow: hidden;
+  box-sizing: border-box;  
 }
 
 
@@ -312,7 +313,7 @@ header h1 {
 }
 
 .taller-header {
-  height: 80px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,14 +321,14 @@ header h1 {
 }
 
 .taller-body {
-  height: 100px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .taller-footer {
-  height: 70px;
+  height: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
