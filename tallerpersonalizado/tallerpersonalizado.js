@@ -45,6 +45,46 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+// ========== Botón de información ==========
+// ========== Modal de información global ==========
+document.querySelectorAll('.boton-info').forEach(boton => {
+  boton.addEventListener('click', () => {
+    const modal = document.getElementById('modal-info');
+    const contenido = document.getElementById('contenido-modal');
+    const taller = boton.dataset.modal;
+
+    const infoTextos = {
+      terracota: `
+        <strong>Técnica Terracota o Marmolado</strong><br>
+        Aprenderás a crear pendientes únicos usando técnicas de texturizado o efecto mármol. Ideal para principiantes.
+      `,
+      flores: `
+        <strong>Técnica Flores</strong><br>
+        Crearás pendientes con flores naturales secas encapsuladas. Taller avanzado para quienes quieren explorar el detalle.
+      `
+    };
+
+    // Si ya está abierto ese mismo modal, lo cerramos
+    const abierto = !modal.classList.contains('oculto') && boton.textContent === 'Cerrar';
+    if (abierto) {
+      modal.classList.add('oculto');
+      contenido.innerHTML = '';
+      boton.textContent = 'Info';
+      return;
+    }
+
+    // Cerrar otros botones "Cerrar"
+    document.querySelectorAll('.boton-info').forEach(b => b.textContent = 'Info');
+
+    // Mostrar el modal con contenido
+    contenido.innerHTML = infoTextos[taller] || 'Sin información disponible.';
+    modal.classList.remove('oculto');
+    boton.textContent = 'Cerrar';
+  });
+});
+
+
+
   // =================== Botones de solicitud ===================
   document.querySelectorAll('.boton-solicitud').forEach(boton => {
     boton.addEventListener('click', function () {

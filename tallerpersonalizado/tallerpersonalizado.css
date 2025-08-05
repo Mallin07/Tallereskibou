@@ -198,7 +198,7 @@ header h1 {
 
 .dificultad-taller {
   color: #2a18ce;
-  font-size: 1.0em;
+  font-size: 0.8em;
   margin-bottom: 10px;
   font-weight: bold;
 }
@@ -253,7 +253,7 @@ header h1 {
 .escojer-clase-subtaller-box {
   flex: 0 0 auto;
   width: 100px;
-  height: 265px;
+  height: 300px;
   background-color: #fff8ee;
   border: 2px solid #000;
   border-radius: 20px;
@@ -286,18 +286,30 @@ header h1 {
   position: relative;
 }
 
-.info-modal {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  background-color: #fffdf6;
-  border: 2px solid #000;
-  border-radius: 10px;
-  padding: 20px;
-  z-index: 10;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  max-width: 90%;
+.taller-header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.taller-body {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.taller-footer {
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* 👈 centra verticalmente los botones o texto */
+  gap: 6px;
+  padding-top: 5px;
+  margin-top: auto;
 }
 
 .oculto {
@@ -307,14 +319,14 @@ header h1 {
 /* ========== BOTONES info y solicitud========== */
 
 .boton-info {
-  margin-top: 40px;
+  width: 60px;
   background-color: #f39c12;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 5px 5px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 0.8em;
   font-family: Arial, sans-serif;
   transition: background-color 0.3s ease;
 }
@@ -326,7 +338,7 @@ header h1 {
 .boton-solicitud {
   background-color: #006411;
   color: white;
-  padding: 6px 6px;
+  padding: 5px 5px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -334,7 +346,6 @@ header h1 {
 
   /* 🔽 Esto lo centra */
   display: block;
-  margin: 20px auto 0;
 }
 
 .boton-formulario {
@@ -351,7 +362,24 @@ header h1 {
   margin: 20px auto 0;
 }
 
-/* ========== Solicitud ========== */
+.info-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fffdf6;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 9999;
+  width: 360px;        /* Más ancho */
+  max-width: 95%;      /* Que no sobrepase pantallas pequeñas */
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== Página Solicitud  ========== */
 
 .formulario-taller {
   background: #fff8ee;

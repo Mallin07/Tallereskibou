@@ -364,7 +364,7 @@ header h1 {
 .taller-header,
 .taller-body,
 .taller-footer {
-  outline: 1px dashed red;
+  outline: 1px dashed rgb(22, 61, 231);
 }
 
 /* ========== BOTONES ========== */

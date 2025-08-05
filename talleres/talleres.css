@@ -135,24 +135,32 @@ header h2 {
 .titulo-taller {
   color: #d35400;
   font-size: 1.8em;
-  margin-bottom: 10px;
+}
+
+.fecha-taller {
+  color: #729102;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 .dificultad-taller {
   color: #2a18ce;
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.precio-taller {
+  color: #a418ce;
+  font-size: 1.2em;
 }
 
 .clase-taller {
   color: #006411;
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 1.2em;
 }
 
 .personas {
   color: #3843d6;
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin-bottom: 10px;
 }
 

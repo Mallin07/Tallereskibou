@@ -10,13 +10,14 @@
 <body class="gastrotaller-page">
   <div class="contenido-fijo-350">
 
-      <div id="usuario-activo" class="usuario-box oculto">
-        <span id="nombre-usuario" class="usuario-nombre"></span>
-        <div class="usuario-menu" id="menu-usuario">
+    <!-- Usuario activo -->
+    <div id="usuario-activo" class="usuario-box oculto">
+      <span id="nombre-usuario" class="usuario-nombre"></span>
+      <div class="usuario-menu" id="menu-usuario">
         <span id="correo-usuario"></span><br>
         <button id="cerrar-sesion">Cerrar sesión</button>
-        </div> 
-       </div>
+      </div>
+    </div>
 
     <header>
       <h1>Personaliza tu taller</h1>
@@ -24,7 +25,7 @@
 
     <h2 class="clase-taller">Escoje la clase de taller</h2>
 
-    <!---------------------- Primera selección ------------------->
+    <!-- Selección de taller -->
     <div class="talleres-contenedor">
 
       <!-- Caja 1 -->
@@ -65,60 +66,58 @@
           <p class="disponibilidad">Próximamente</p>
         </div>
       </section>
-
     </div>
 
-    <!---------------------- Segunda selección ------------------->
+    <!-- Subtalleres: Pendientes -->
+    <div class="subtalleres" id="pendientes-subtalleres">
+      <h2 class="clase-taller">Escoje la técnica</h2>
 
-<div class="subtalleres" id="pendientes-subtalleres">
-  <h2 class="clase-taller">Escoje la técnica</h2>
+      <div class="subtalleres-grid">
 
-  <div class="subtalleres-grid">
-    <!-- Subtaller 1 -->
-    <section class="escojer-clase-subtaller-box" data-subtaller="terracota">
-      <div class="taller-header">
-        <h2 class="titulo-taller">Terracota o Marmolado</h2>
+        <!-- Subtaller 1 -->
+        <section class="escojer-clase-subtaller-box" data-subtaller="terracota">
+          <div class="taller-header">
+            <h2 class="titulo-taller">Terracota o Marmolado</h2>
+          </div>
+          <div class="taller-body">
+            <img src="assets/terracotaomarmolado.png" alt="Taller" class="imagen-taller2">
+          </div>
+          <div class="taller-footer">
+            <p class="dificultad-taller">Iniciación</p>
+            <button class="boton-solicitud">Solicitud</button>
+            <button class="boton-info" data-modal="terracota">Info</button>
+            <p class="disponibilidad">Disponible</p>
+          </div>
+        </section>
+
+        <!-- Subtaller 2 -->
+        <section class="escojer-clase-subtaller-box" data-subtaller="flores">
+          <div class="taller-header">
+            <h2 class="titulo-taller">Flores</h2>
+          </div>
+          <div class="taller-body">
+            <img src="assets/pendienteflor.png" alt="Taller" class="imagen-taller">
+          </div>
+          <div class="taller-footer">
+            <p class="dificultad-taller">Avanzado</p>
+            <button class="boton-solicitud">Solicitud</button>
+            <button class="boton-info" data-modal="flores">Info</button>
+            <p class="disponibilidad">Disponible</p>
+          </div>
+        </section>
+
       </div>
-      <div class="taller-body">
-        <img src="assets/terracotaomarmolado.png" alt="Taller" class="imagen-taller2">
-      </div>
+    </div>
 
-      <p class="dificultad-taller">
-        Iniciación
-      </p>
+  </div> <!-- /contenido-fijo-350 -->
 
-      <button class="boton-solicitud">Solicitud</button>
+  <!-- ✅ Modal global para información -->
+  <div class="info-modal oculto" id="modal-info">
+    <div class="contenido-modal" id="contenido-modal"></div>
 
-      <div class="taller-footer">
-        <p class="disponibilidad">Disponible</p>
-      </div>
-    </section>
-
-    <!-- Subtaller 2 -->
-    <section class="escojer-clase-subtaller-box" data-subtaller="flores">
-      <div class="taller-header">
-        <h2 class="titulo-taller">Flores</h2>
-      </div>
-      <div class="taller-body">
-        <img src="assets/pendienteflor.png" alt="Taller" class="imagen-taller">
-      </div>
-
-      <p class="dificultad-taller">
-        Avanzado
-      </p>
-      
-      <button class="boton-solicitud">Solicitud</button>
-
-
-      <div class="taller-footer">
-        <p class="disponibilidad">Disponible</p>
-      </div>
-    </section>
-  </div>
-</div>
-
-  <script type="module" src="../firebase.js"></script>  
+  <!-- Scripts -->
+  <script type="module" src="../firebase.js"></script>
   <script type="module" src="tallerpersonalizado.js"></script>
-  
 </body>
+
 </html>

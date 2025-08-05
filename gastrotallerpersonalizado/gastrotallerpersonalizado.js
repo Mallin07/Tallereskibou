@@ -75,7 +75,7 @@ document.querySelectorAll('.escojer-clase-subtaller-box').forEach(box => {
 });
 
 
-// ------------ Modal info comida ------------ //
+// ------------ Botón de información ------------ //
 document.querySelectorAll('.caja-comida').forEach(caja => {
   const infoBtn = caja.querySelector('.boton-info');
   const modal = caja.querySelector('.info-modal');
