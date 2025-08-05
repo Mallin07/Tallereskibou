@@ -311,24 +311,25 @@ header h1 {
 }
 
 .taller-header {
-  height: 45px; /* 🔧 Fijo para todas las cajas */
+  min-height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 4px;
 }
 
 .taller-body {
-  height: 80px; /* 🔧 Igual para todas, asegura que las imágenes no se desplacen */
+  min-height: 60px;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 
-
 .taller-footer {
-  height: 85px; /* Reducido desde 100px */
+  min-height: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -337,6 +338,7 @@ header h1 {
   padding-top: 5px;
   margin-top: auto;
 }
+
 
 .info-modal {
   position: fixed;
