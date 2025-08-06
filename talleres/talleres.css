@@ -298,3 +298,83 @@ header h2 {
   font-size: 1em;
 }
 
+/* ---------------------------------barras scroll----------------------------------- */
+
+.seccion-taller {
+  margin-bottom: 40px;
+}
+
+.titulo-seccion {
+  text-align: center;
+  font-size: 1.5em;
+  color: #e67e22;
+  margin-bottom: 10px;
+}
+
+/* Scroll horizontal */
+.fila-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.fila-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------------carrusel talleres----------------------------------- */
+
+/* Tarjeta con estructura en grid */
+.tarjeta-taller {
+  flex: 0 0 auto;
+  width: 140px;
+  height: 250px; /* Igual que la suma del grid interno */
+  border: 2px solid rgb(0, 0, 0); /* Borde rojo general */
+  border-radius: 12px;
+  background-color: #fff;
+  scroll-snap-align: start;
+  overflow: hidden;
+  padding: 0;
+}
+
+.grid-tarjeta {
+  display: grid;
+  grid-template-rows: 80px 80px 80px; /* Fila imagen, fila texto1, fila texto2 */
+  height: 100%;
+}
+/* Foto fija */
+.foto-taller {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Texto dentro de tarjeta */
+.texto-taller {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  border-top: 1px solid #ccc;
+  padding: 4px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.texto-datas ul {
+  padding-left: 20px;   /* espacio a la izquierda para viñeta */
+  margin: 0;
+  list-style-type: disc; /* viñetas tipo punto (•) */
+  font-size: 0.8em;
+  color: #04660c;
+}
+
+.texto-datas li {
+  margin-bottom: 4px;
+  line-height: 1.2em;
+}

@@ -25,25 +25,84 @@
     </header>
 
     <!-- Fila 3: Contenido principal -->
-    <main>
-      <div class="talleres-contenedor">
-
-        <!-- Primera caja -->
-        <section class="taller-box">
-          <h2 class="titulo-taller">Taller personalizado</h2>
-          <img src="assets/taller.png" alt="Taller" class="imagen-taller" />
-          <p class="dificultad-taller">4-6 personas</p>
-          <button class="boton-personalizar-taller">Personalizar taller</button>
-          <button class="boton-info">Ver información</button>
-          <div class="info-modal oculto">
-            <p>
-              Si sois entre 4 y 6 personas, personalizad vuestro taller en la web a vuestro gusto.
-              Nosotr@s os contactaremos para elegir la fecha que mejor os encaje.
-            </p>
+<main>
+  <!-- Sección Pendientes -->
+  <section class="seccion-taller">
+    <h2 class="titulo-seccion">Pendientes</h2>
+    <div class="fila-scroll">
+      <div class="tarjeta-taller">
+        <div class="grid-tarjeta">
+          <div class="foto-taller" style="background-image: url('assets/pendientes1.jpg');"></div>
+          <div class="texto-taller">Taller de iniciación, terracota y marmolado</div>
+          <div class="texto-datas">
+            <ul><li>Solicitar fecha mínimo 4 personas</li></ul>
           </div>
-        </section>
+        </div>
       </div>
-    </main>
+      <div class="tarjeta-taller">
+        <div class="grid-tarjeta">
+          <div class="foto-taller" style="background-image: url('assets/tallerpendientes1.jpg');"></div>
+          <div class="texto-taller">Taller intermedio, estampados</div>
+          <div class="texto-datas">
+            <ul><li>Solicitar fecha mínimo 4 personas</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="tarjeta-taller">
+        <div class="grid-tarjeta">
+          <div class="foto-taller" style="background-image: url('assets/tallerpendientes3.jpg');"></div>
+          <div class="texto-taller">Taller avanzado, flores</div>
+          <div class="texto-datas">
+            <ul><li>Solicitar fecha mínimo 4 personas</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Flores -->
+  <section class="seccion-taller">
+    <h2 class="titulo-seccion">Flores</h2>
+    <div class="fila-scroll">
+      <div class="tarjeta-taller">
+        <div class="grid-tarjeta">
+          <div class="foto-taller" style="background-image: url('assets/tallerflores1.jpg');"></div>
+          <div class="texto-taller">Elaboración de lámina y vela floral</div>
+          <div class="texto-datas">
+            <ul><li>No disponible</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="tarjeta-taller">
+        <div class="grid-tarjeta">
+          <div class="foto-taller" style="background-image: url('assets/tallerflores2.jpg');"></div>
+          <div class="texto-taller">Elaboración de punto de libro y postal</div>
+          <div class="texto-datas">
+            <ul><li>No disponible</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Mandalas -->
+  <section class="seccion-taller">
+    <h2 class="titulo-seccion">Mandalas</h2>
+    <div class="fila-scroll">
+      <div class="tarjeta-taller">
+        <div class="grid-tarjeta">
+          <div class="foto-taller" style="background-image: url('assets/tallermandala1.jpg');"></div>
+          <div class="texto-taller">Diseña tu propio mandala y colorealo</div>
+          <div class="texto-datas">
+            <ul><li>No disponible</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
   </div>
 
   <script type="module" src="../firebase.js"></script>  
