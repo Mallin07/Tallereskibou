@@ -360,13 +360,6 @@ header h1 {
   display: none !important;
 }
 
-.caja-comida,
-.taller-header,
-.taller-body,
-.taller-footer {
-  outline: 1px dashed rgb(22, 61, 231);
-}
-
 /* ========== BOTONES ========== */
 
 

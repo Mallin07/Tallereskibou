@@ -183,3 +183,73 @@ async function cancelarInscripcion(email, tallerId) {
     console.error("Error al cancelar inscripción:", error);
   }
 }
+
+// .........link al clicar........... //
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".taller-box").forEach((box) => {
+    const link = box.querySelector(".taller-link");
+    if (!link) return;
+
+    box.addEventListener("click", (e) => {
+      // Evita conflicto con botones dentro de la caja (como inscribirse)
+      const isButton = e.target.closest("button");
+      if (!isButton) {
+        window.location.href = link.href;
+      }
+    });
+  });
+});
+
+// ........................carrusel........................ //
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const carruseles = document.querySelectorAll('.carrusel');
+
+    carruseles.forEach(carrusel => {
+      const imagenes = carrusel.querySelectorAll('.carrusel-item');
+      let indice = 0;
+
+      const mostrarImagen = (i) => {
+        imagenes.forEach((img, idx) => {
+          img.classList.toggle('activo', idx === i);
+        });
+      };
+
+      carrusel.querySelector('.anterior').addEventListener('click', () => {
+        indice = (indice - 1 + imagenes.length) % imagenes.length;
+        mostrarImagen(indice);
+      });
+
+      carrusel.querySelector('.siguiente').addEventListener('click', () => {
+        indice = (indice + 1) % imagenes.length;
+        mostrarImagen(indice);
+      });
+
+      // Soporte táctil
+      let startX = 0;
+      let endX = 0;
+
+      carrusel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      });
+
+      carrusel.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        let diff = startX - endX;
+
+        if (Math.abs(diff) > 30) { // umbral para detectar swipe
+          if (diff > 0) {
+            // Swipe izquierda → siguiente
+            indice = (indice + 1) % imagenes.length;
+          } else {
+            // Swipe derecha → anterior
+            indice = (indice - 1 + imagenes.length) % imagenes.length;
+          }
+          mostrarImagen(indice);
+        }
+      });
+
+      mostrarImagen(indice); // inicial
+    });
+  });

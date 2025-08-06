@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gastrotaller</title>
+  <link rel="stylesheet" href="talleres1.css" />
+</head>
+
+<body>
+  <div class="contenido-fijo-350">
+
+    <!-- Usuario activo -->
+    <div id="usuario-activo" class="usuario-box">
+      <span id="nombre-usuario" class="usuario-nombre">Nombre Usuario</span>
+      <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario">correo@ejemplo.com</span><br>
+        <button id="cerrar-sesion">Cerrar sesión</button>
+      </div> 
+    </div>
+
+    <!-- Encabezado -->
+    <header>
+      <h2 class="titulo-taller">Gastrotaller de pendientes iniciación</h2>
+      <p class="fecha-taller">Sábado 13 de septiembre</p>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+      <div class="talleres-contenedor">
+
+        <!-- Taller -->
+        <section class="taller-box" data-taller-id="terracota">    
+        
+          <div class="carrusel">
+            <div class="carrusel-imagenes">
+              <img src="assets/marmolado1.jpg" class="imagen-gastrotaller carrusel-item activo" alt="Imagen 1" />
+              <img src="assets/pendientes1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 2" />
+              <img src="assets/comida1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 3" />
+              <img src="assets/terracota1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 4" />
+            </div>
+            <button class="carrusel-btn anterior">‹</button>
+            <button class="carrusel-btn siguiente">›</button>
+          </div>
+
+      <div class="espaciado">
+              En este taller aprenderás a crear pendientes de arcilla polimérica con técnicas
+              de terracota o marmolado. Ideal para principiantes.
+            </div>
+
+            <div class="espaciado">
+              <strong>Pica-pica:</strong>
+              <ul>
+                <li>Arroz de carrilleras con parmesano.</li>
+                <li>Brandada de bacalao con olivada y mantequilla de romero.</li>
+                <li>Tostas de brie con trufa y jamón ibérico.</li>
+                <li>Brochetas caprese con aceite de albahaca.</li>
+                <li>Tacos de salmón aburi.</li>
+                <li>Surtido de chips vegetales.</li>
+                <li>Copa de cava.</li>
+              </ul>
+            </div>
+
+            <div class="espaciado">
+              <strong>Alérgenos:</strong><br>
+              Lácteos, pescado, sésamo, soja, gluten, sulfitos.
+            </div>
+
+          <img src="assets/precio59.jpg" class="imagen-taller">
+
+          <p class="plazas-disponibles">
+            Plazas disponibles: <span class="contador">6</span>
+          </p>
+
+          <button class="boton-inscribirse">Inscribirse</button>
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Scripts (ajusta rutas si es necesario) -->
+  <script type="module" src="../firebase.js"></script>  
+  <script type="module" src="talleres.js"></script>
+</body>
+</html>

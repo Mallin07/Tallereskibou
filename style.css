@@ -23,6 +23,12 @@ header h2 {
   font-weight: normal;
 }
 
+header h3 {
+  font-size: 1.2em;
+  color: #04660c;
+  font-weight: Bolder;
+}
+
 .kibou {
   color: #e67e22; /* Color naranja llamativo para "KIBOU" */
 }
