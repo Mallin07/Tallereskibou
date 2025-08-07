@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gastrotaller</title>
+  <link rel="stylesheet" href="talleres1.css" />
+</head>
+
+<body>
+  <div class="contenido-fijo-350">
+
+    <!-- Usuario activo -->
+    <div id="usuario-activo" class="usuario-box">
+      <span id="nombre-usuario" class="usuario-nombre">Nombre Usuario</span>
+      <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario">correo@ejemplo.com</span><br>
+        <button id="cerrar-sesion">Cerrar sesión</button>
+      </div> 
+    </div>
+
+    <!-- Fila 2: Botones de sesión (si no hay usuario activo) -->
+<div class="auth-buttons">
+  <button onclick="window.location.href='../login/login.html'">Iniciar sesión</button>
+  <button onclick="window.location.href='../registro/registro.html'">Crear perfil</button>
+</div>
+
+    <!-- Encabezado -->
+    <header>
+      <h2 class="titulo-taller">Taller de pendientes avanzado</h2>
+      <p class="fecha-taller">Sin fechas</p>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+      <div class="talleres-contenedor">
+
+        <!-- Taller -->
+        <section class="taller-box" data-taller-id="pendientes-avanzado">    
+        
+          <div class="carrusel">
+            <div class="carrusel-imagenes">
+              <img src="assets/flores1.jpg" class="imagen-gastrotaller carrusel-item activo" alt="Imagen 1" />
+              <img src="assets/flores2.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 2" />
+              <img src="assets/flores3.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 3" />
+              <img src="assets/flores4.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 4" />
+            </div>
+            <button class="carrusel-btn anterior">‹</button>
+            <button class="carrusel-btn siguiente">›</button>
+          </div>
+
+      <div class="espaciado">
+              En este taller aprenderás a crear pendientes de arcilla polimérica con técnicas
+              de terracota o marmolado. Ideal para principiantes. Aún así, la versatilidad de colores y formas permite elaborar un sin fin de posibilidades y con vistosos resultados.
+            </div>
+
+          <img src="assets/precio60.jpg" class="imagen-taller">
+
+          <p class="plazas-disponibles">
+            Plazas disponibles: <span class="contador">0</span>
+          </p>
+
+          <label for="selector-plazas">Nº de plazas a reservar:</label>
+          <input type="number" class="selector-plazas" min="1" max="6" value="1" />
+          <button class="boton-inscribirse">Inscribirse</button>
+          <button class="boton-fecha" id="mostrar-formulario">Solicitar fecha</button>
+
+<div id="formulario-fecha" class="formulario-fecha oculto">
+  <label class="campo-formulario">
+    <span>📅 Escoge una fecha:</span>
+    <input type="date" name="fecha" required />
+  </label>
+
+  <label class="campo-formulario">
+    <span>👥 Número de personas:</span>
+    <select name="personas" required>
+      <option value="4">4 personas</option>
+      <option value="5">5 personas</option>
+      <option value="6">6 personas</option>
+    </select>
+  </label>
+
+  <label class="campo-formulario">
+    <span>📞 Nº de teléfono (opcional):</span>
+    <input type="tel" name="telefono" placeholder="Ej. 612 345 678" />
+  </label>
+
+  <p class="mensaje-contacto">
+    Si introduces tu número, te contactaremos por WhatsApp.<br />
+    Si no, te enviaremos un email.
+  </p>
+
+  <button id="enviar-solicitud" class="boton-enviar-formulario">Enviar solicitud</button>
+</div>
+
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Scripts (ajusta rutas si es necesario) -->
+  <script type="module" src="../firebase.js"></script>  
+  <script type="module" src="talleres.js"></script>
+</body>
+</html>

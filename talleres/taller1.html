@@ -19,10 +19,16 @@
       </div> 
     </div>
 
+    <!-- Fila 2: Botones de sesión (si no hay usuario activo) -->
+<div class="auth-buttons">
+  <button onclick="window.location.href='../login/login.html'">Iniciar sesión</button>
+  <button onclick="window.location.href='../registro/registro.html'">Crear perfil</button>
+</div>
+
     <!-- Encabezado -->
     <header>
-      <h2 class="titulo-taller">Gastrotaller de pendientes iniciación</h2>
-      <p class="fecha-taller">Sábado 13 de septiembre</p>
+      <h2 class="titulo-taller">Taller de pendientes iniciación</h2>
+      <p class="fecha-taller">Sin fechas</p>
     </header>
 
     <!-- Contenido principal -->
@@ -30,14 +36,13 @@
       <div class="talleres-contenedor">
 
         <!-- Taller -->
-        <section class="taller-box" data-taller-id="13S-gastro-pendientes-iniciación">    
+        <section class="taller-box" data-taller-id="pendientes-iniciación">    
         
           <div class="carrusel">
             <div class="carrusel-imagenes">
               <img src="assets/marmolado1.jpg" class="imagen-gastrotaller carrusel-item activo" alt="Imagen 1" />
               <img src="assets/pendientes1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 2" />
-              <img src="assets/comida1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 3" />
-              <img src="assets/terracota1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 4" />
+              <img src="assets/terracota1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 3" />
             </div>
             <button class="carrusel-btn anterior">‹</button>
             <button class="carrusel-btn siguiente">›</button>
@@ -45,36 +50,48 @@
 
       <div class="espaciado">
               En este taller aprenderás a crear pendientes de arcilla polimérica con técnicas
-              de terracota o marmolado. Ideal para principiantes.
+              de terracota o marmolado. Ideal para principiantes. Aún así, la versatilidad de colores y formas permite elaborar un sin fin de posibilidades y con vistosos resultados.
             </div>
 
-            <div class="espaciado">
-              <strong>Pica-pica:</strong>
-              <ul>
-                <li>Arroz de carrilleras con parmesano.</li>
-                <li>Brandada de bacalao con olivada y mantequilla de romero.</li>
-                <li>Tostas de brie con trufa y jamón ibérico.</li>
-                <li>Brochetas caprese con aceite de albahaca.</li>
-                <li>Tacos de salmón aburi.</li>
-                <li>Surtido de chips vegetales.</li>
-                <li>Copa de cava.</li>
-              </ul>
-            </div>
-
-            <div class="espaciado">
-              <strong>Alérgenos:</strong><br>
-              Lácteos, pescado, sésamo, soja, gluten, sulfitos.
-            </div>
-
-          <img src="assets/precio60.jpg" class="imagen-taller">
+          <img src="assets/precio40.jpg" class="imagen-taller">
 
           <p class="plazas-disponibles">
-            Plazas disponibles: <span class="contador">6</span>
+            Plazas disponibles: <span class="contador">0</span>
           </p>
 
           <label for="selector-plazas">Nº de plazas a reservar:</label>
           <input type="number" class="selector-plazas" min="1" max="6" value="1" />
           <button class="boton-inscribirse">Inscribirse</button>
+          <button class="boton-fecha" id="mostrar-formulario">Solicitar fecha</button>
+
+<div id="formulario-fecha" class="formulario-fecha oculto">
+  <label class="campo-formulario">
+    <span>📅 Escoge una fecha:</span>
+    <input type="date" name="fecha" required />
+  </label>
+
+  <label class="campo-formulario">
+    <span>👥 Número de personas:</span>
+    <select name="personas" required>
+      <option value="4">4 personas</option>
+      <option value="5">5 personas</option>
+      <option value="6">6 personas</option>
+    </select>
+  </label>
+
+  <label class="campo-formulario">
+    <span>📞 Nº de teléfono (opcional):</span>
+    <input type="tel" name="telefono" placeholder="Ej. 612 345 678" />
+  </label>
+
+  <p class="mensaje-contacto">
+    Si introduces tu número, te contactaremos por WhatsApp.<br />
+    Si no, te enviaremos un email.
+  </p>
+
+  <button id="enviar-solicitud" class="boton-enviar-formulario">Enviar solicitud</button>
+</div>
+
 
         </section>
 
