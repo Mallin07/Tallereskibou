@@ -30,7 +30,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }));
 
         alert(`✅ Bienvenido/a, ${datos.nombre}`);
-        window.location.href = "../index.html";
+        const rutaPrevia = localStorage.getItem("ruta-previa");
+if (rutaPrevia) {
+  localStorage.removeItem("ruta-previa"); // limpia después de usar
+  window.location.href = rutaPrevia;
+} else {
+  window.location.href = "../index.html"; // fallback
+}
       } else {
         alert("⚠️ Usuario autenticado, pero no se encontraron datos en Firestore.");
       }

@@ -268,7 +268,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (botonMostrar && formulario) {
     botonMostrar.addEventListener("click", () => {
       formulario.classList.toggle("oculto");
-      botonMostrar.textContent = formulario.classList.contains("oculto") ? "Solicitar fecha" : "Ocultar formulario";
+      botonMostrar.textContent = formulario.classList.contains("oculto")
+        ? "Solicitar fecha"
+        : "Ocultar formulario";
+
+      if (!formulario.classList.contains("oculto")) {
+        formulario.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     });
   }
 
@@ -284,11 +290,19 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const tarjeta = botonEnviar.closest(".tarjeta-taller");
+      const tarjeta = botonEnviar.closest(".tarjeta-taller, .taller-box");
       const tallerId = tarjeta?.dataset?.tallerId;
 
-      if (!tallerId) {
+      // 🛡️ Validaciones adicionales
+      if (!tallerId || typeof tallerId !== "string" || tallerId.trim() === "") {
+        console.warn("ID del taller no válido:", tallerId);
         alert("No se pudo determinar el ID del taller.");
+        return;
+      }
+
+      if (!user.uid || typeof user.uid !== "string") {
+        console.warn("ID de usuario no válido:", user.uid);
+        alert("Usuario no válido.");
         return;
       }
 
@@ -314,3 +328,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
