@@ -86,6 +86,20 @@
         <p><strong>Total:</strong> <span id="total-euros">0.00</span> €</p>
       </div>
 
+      <!-- Teléfono (opcional) -->
+      <label for="telefono">Teléfono (opcional)</label>
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          inputmode="tel"
+          placeholder="600 000 000"
+          pattern="^[+0-9\s()\-]{6,20}$"
+        />
+        <small class="ayuda-campo">
+          En caso de poner el teléfono te contactaremos vía WhatsApp; si no, te enviaremos un email.
+        </small>
+
       <!-- Enviar -->
       <button type="submit" class="boton-formulario">Enviar solicitud</button>
     </form>

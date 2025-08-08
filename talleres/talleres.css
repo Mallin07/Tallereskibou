@@ -319,7 +319,9 @@ header h2 {
 /* ---------------------------------barras scroll----------------------------------- */
 
 .seccion-taller {
-  margin-bottom: 40px;
+  margin: 0 auto 40px auto; /* centrado horizontal + margen inferior */
+  max-width: 800px; /* ajusta al ancho que quieras */
+  width: 100%;
 }
 
 .titulo-seccion {
@@ -341,6 +343,8 @@ header h2 {
 .fila-scroll::-webkit-scrollbar {
   display: none;
 }
+
+
 
 /* ---------------------------------carrusel talleres----------------------------------- */
 

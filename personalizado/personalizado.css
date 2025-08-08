@@ -489,3 +489,9 @@ header h1 {
   z-index: 10;
 }
 
+.ayuda-campo {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85em;
+  color: #555;
+}
