@@ -209,6 +209,16 @@ document.addEventListener("DOMContentLoaded", () => {
         enviadoEn: Timestamp.now(),
       });
 
+        // Aviso por email
+      await addDoc(collection(db, "mail"), {
+        to: ["tallereskibou@gmail.com"],
+        message: {
+        subject: "Aviso: Nueva solicitud recibida",
+        text: "Se ha registrado una nueva solicitud en Firebase."
+        }
+      });
+
+      // Aviso de solicitud y redirección
       alert("✅ Tu solicitud ha sido enviada con éxito.");
       window.location.href = "/index.html";
     } catch (err) {
