@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendientes Kibou</title>
+  <link rel="stylesheet" href="info.css" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+<header>
+<nav class="navbar">
+  <!-- izquierda -->
+  <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+    <div></div><div></div><div></div>
+  </button>
+
+  <!-- centro -->
+  <div class="nav-center">
+    <div id="usuario-activo" class="usuario-box">
+      <span id="nombre-usuario" class="usuario-nombre">Marc Hidalgo</span>
+      <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario">correo@ejemplo.com</span><br>
+        <button id="cerrar-sesion">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div class="auth-buttons">
+      <button onclick="window.location.href='../login/login.html'">Iniciar sesión</button>
+      <button onclick="window.location.href='../registro/registro.html'">Crear perfil</button>
+    </div>
+  </div>
+
+  <!-- derecha -->
+  <a href="/carrito/carrito.html" class="icon-btn cart-btn" aria-label="Carrito">
+    <!-- tu SVG del carrito -->
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 12.39A2 2 0 0 0 9.62 15h7.76a2 2 0 0 0 1.96-1.61l1.38-7.39H6"></path>
+    </svg>
+    <span class="cart-badge" id="cart-count" hidden>0</span>
+  </a>
+
+    <!-- Menú (absoluto, no ocupa espacio en la fila) -->
+  <div class="menu" id="menu">
+    <a href="../index.html">Inicio</a>
+    <a href="../pendientes/pendientes.html">Pendientes</a>
+    <a href="../disponibles/disponibles.html">Talleres disponibles</a>
+    <a href="../solicitud/solicitud.html">Solicitar taller personalizado</a>
+    <a href="info.html">Información</a>
+  </div>
+</nav>
+</header>
+
+
+<section class="contenido-fijo-350">
+  <h2 class="coleccion" style="text-align:center; margin:16px 0 10px;">Información</h2>
+
+  <div class="info-accordion">
+
+    <!-- ============== TALLERES ============== -->
+    <details>
+      <summary>Talleres</summary>
+      <div class="panel">
+
+        <!-- Taller 1 -->
+        <article class="taller-card">
+          <h3 class="taller-titulo">Taller de pendientes  Iniciación</h3>
+
+          <div class="carousel" data-interval="3500">
+            <div class="viewport">
+              <img src="assets/taller iniciación/marmolado1.jpg" alt="Pendientes iniciación 1" class="active">
+              <img src="assets/taller iniciación/pendientes1.jpg" alt="Pendientes iniciación 2">
+              <img src="assets/taller iniciación/terracota1.jpg" alt="Pendientes iniciación 3">
+            </div>
+          </div>
+
+          <p class="taller-descripcion">
+            En este taller aprenderás a crear pendientes de arcilla polimérica con técnicas de terracota o marmolado.
+            Ideal para empezar desde cero: composición, color y horneado seguro.
+          </p>
+          <p class="taller-meta">Duración aproximada: <strong>2 h</strong></p>
+        </article>
+
+        <!-- Taller 2 -->
+        <article class="taller-card">
+          <h3 class="taller-titulo">Taller de pendientes  Intermedio</h3>
+
+          <div class="carousel" data-interval="3500">
+            <div class="viewport">
+              <img src="assets/taller intermedio/estampado1.jpg" alt="Pendientes intermedio 1" class="active">
+              <img src="assets/taller intermedio/estampado2.jpg" alt="Pendientes intermedio 2">
+              <img src="assets/taller intermedio/estampado4.jpg" alt="Pendientes intermedio 3">
+            </div>
+          </div>
+
+          <p class="taller-descripcion">
+            Profundiza en texturas, incrustaciones y acabados. Trabajaremos simetrías, cortes limpios y combinaciones de color más complejas.
+          </p>
+          <p class="taller-meta">Duración aproximada: <strong>2,5 h</strong></p>
+        </article>
+
+        <!-- Taller 3 -->
+        <article class="taller-card">
+          <h3 class="taller-titulo">Taller de pendientes  Avanzado</h3>
+
+          <div class="carousel" data-interval="3500">
+            <div class="viewport">
+              <img src="assets/taller avanzado/flores1.jpg" alt="Pendientes avanzado 1" class="active">
+              <img src="assets/taller avanzado/flores2.jpg" alt="Pendientes avanzado 2">
+              <img src="assets/taller avanzado/flores3.jpg" alt="Pendientes avanzado 3">
+              <img src="assets/taller avanzado/flores4.jpg" alt="Pendientes avanzado 4">
+            </div>
+          </div>
+
+          <p class="taller-descripcion">
+            Técnicas avanzadas: mosaicos, canes y ensamblajes con herrajes. Enfoque en precisión, repetibilidad y acabado profesional.
+          </p>
+          <p class="taller-meta">Duración aproximada: <strong>3 h</strong></p>
+        </article>
+       <button class="cerrar-btn" onclick="this.closest('details').removeAttribute('open')">Cerrar sección</button>
+      </div>
+    </details>
+
+    <!-- ============== MENÚS ============== -->
+    <details>
+      <summary>Menús</summary>
+      <div class="panel">
+
+        <!-- leyenda alérgenos -->
+        <div class="alerg-legend">
+          <span class="badge GLUT">Gluten</span>
+          <span class="badge LAC">Lácteos</span>
+          <span class="badge HUE">Huevo</span>
+          <span class="badge FRU">Frutos secos</span>
+          <span class="badge PESC">Pescado</span>
+          <span class="badge SOJA">Soja</span>
+        </div>
+
+        <!-- Menú completo -->
+        <article class="menu-card">
+          <h4>Menú completo</h4>
+          <ul class="platos">
+            <li>Surtido de chips vegetales <span class="badges"></span></li>
+            <li>Pinchos caprese con aceite de albahaca <span class="badges LAC">LAC</span></li>
+            <li>Brandada de bacalao con olivada y mantequilla de romero <span class="badges PESC LAC">PESC · LAC</span></li>
+            <li>Dados de salmón aburi <span class="badges PESC">PESC</span></li>
+            <li>Tostas de brie con trufa y jamón ibérico <span class="badges GLUT LAC">GLUT · LAC</span></li>
+            <li>Arroz de carrilleras con parmesano <span class="badges LAC">LAC</span></li>
+          </ul>
+        </article>
+
+        <!-- Menú sin carne -->
+        <article class="menu-card">
+          <h4>Menú sin carne</h4>
+          <ul class="platos">
+            <li>Surtido de chips vegetales <span class="badges"></span></li>
+            <li>Pinchos caprese con aceite de albahaca <span class="badges LAC">LAC</span></li>
+            <li>Brandada de bacalao con olivada y mantequilla de romero <span class="badges PESC LAC">PESC · LAC</span></li>
+            <li>Buñuelos de berenjena y parmesano con miel <span class="badges GLUT LAC HUE">GLUT · LAC · HUE</span></li>
+            <li>Dados de salmón aburi <span class="badges PESC">PESC</span></li>
+            <li>Surtido de tostas brie <span class="badges GLUT LAC">GLUT · LAC</span></li>
+          </ul>
+        </article>
+
+        <!-- Menú vegetariano -->
+        <article class="menu-card">
+          <h4>Menú vegetariano</h4>
+          <ul class="platos">
+            <li>Surtido de chips vegetales <span class="badges"></span></li>
+            <li>Pinchos caprese <span class="badges LAC">LAC</span></li>
+            <li>Brandada de tofu con olivada y mantequilla de romero <span class="badges SOJA LAC">SOJA · LAC</span></li>
+            <li>Buñuelos de setas con trufa <span class="badges GLUT LAC HUE">GLUT · LAC · HUE</span></li>
+            <li>Surtido de tostas brie <span class="badges GLUT LAC">GLUT · LAC</span></li>
+          </ul>
+        </article>
+
+        <!-- Menú vegano -->
+        <article class="menu-card">
+          <h4>Menú vegano</h4>
+          <ul class="platos">
+            <li>Surtido de chips vegetales <span class="badges"></span></li>
+            <li>Pinchos caprese veganos <span class="badges SOJA">SOJA</span></li>
+            <li>Brandada de tofu con olivada y margarina de romero <span class="badges SOJA">SOJA</span></li>
+            <li>Buñuelos de setas con coco <span class="badges GLUT">GLUT</span></li>
+            <li>Saquitos de brea con crema de coco <span class="badges GLUT">GLUT</span></li>
+          </ul>
+        </article>
+
+        <p class="nota-alerg">* Los alérgenos indicados son orientativos. Si tienes alergias, avísanos para adaptar el menú.</p>
+        <button class="cerrar-btn" onclick="this.closest('details').removeAttribute('open')">Cerrar sección</button>
+      </div>
+    </details>
+
+    <!-- ============== PAGOS ============== -->
+    <details>
+      <summary>Pagos</summary>
+      <div class="panel">
+        <p>Aceptamos tarjetas y Bizum. Las reservas se confirman con un anticipo. Cancelaciones con 72 h de antelación pueden reprogramarse sin coste.</p>
+        <button class="cerrar-btn" onclick="this.closest('details').removeAttribute('open')">Cerrar sección</button>
+      </div>
+    </details>
+
+    <!-- ============== ENTREGAS ============== -->
+    <details>
+      <summary>Entregas</summary>
+      <div class="panel">
+        <p>Los pedidos de material o kits se entregan en Esplugues de Llobregat o se envían según tarifas vigentes. Plazos habituales: 2–5 días laborables.</p>
+        <button class="cerrar-btn" onclick="this.closest('details').removeAttribute('open')">Cerrar sección</button>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+
+
+<!---------------------------------FOOTER--------------------------------------------------------->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <h2 class="footer-title">Contacto</h2>
+
+    <a class="contact-row" href="mailto:tallereskibou@gmail.com">
+      <span class="icon">✉️</span>
+      <span>tallereskibou@gmail.com</span>
+    </a>
+
+    <a class="contact-row" href="https://www.instagram.com/kibou.es/" target="_blank" rel="noopener" aria-label="Instagram de Kibou">
+      <img class="icon-img" src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+      <span>kibou.es</span>
+    </a>
+
+    <div class="contact-row">
+      <span class="icon">📍</span>
+      <span>Esplugues de Llobregat</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../firebase.js"></script>
+<script type="module" src="info.js"></script>
+
+
+</body>
+</html>

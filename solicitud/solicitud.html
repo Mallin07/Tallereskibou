@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendientes Kibou</title>
+  <link rel="stylesheet" href="solicitud.css" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+<header>
+<nav class="navbar">
+  <!-- izquierda -->
+  <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+    <div></div><div></div><div></div>
+  </button>
+
+  <!-- centro -->
+  <div class="nav-center">
+    <div id="usuario-activo" class="usuario-box">
+      <span id="nombre-usuario" class="usuario-nombre">Marc Hidalgo</span>
+      <div class="usuario-menu" id="menu-usuario">
+        <span id="correo-usuario">correo@ejemplo.com</span><br>
+        <button id="cerrar-sesion">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div class="auth-buttons">
+      <button onclick="window.location.href='../login/login.html'">Iniciar sesión</button>
+      <button onclick="window.location.href='../registro/registro.html'">Crear perfil</button>
+    </div>
+  </div>
+
+  <!-- derecha -->
+  <a href="/carrito/carrito.html" class="icon-btn cart-btn" aria-label="Carrito">
+    <!-- tu SVG del carrito -->
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 12.39A2 2 0 0 0 9.62 15h7.76a2 2 0 0 0 1.96-1.61l1.38-7.39H6"></path>
+    </svg>
+    <span class="cart-badge" id="cart-count" hidden>0</span>
+  </a>
+
+    <!-- Menú (absoluto, no ocupa espacio en la fila) -->
+  <div class="menu" id="menu">
+    <a href="../index.html">Inicio</a>
+    <a href="../pendientes/pendientes.html">Pendientes</a>
+    <a href="../disponibles/disponibles.html">Talleres disponibles</a>
+    <a href="../solicitud/solicitud.html">Solicitar taller personalizado</a>
+    <a href="../info/info.html">Información</a>
+  </div>
+</nav>
+</header>
+
+
+
+<section class="contenido-fijo-350">
+    <form id="formulario-taller" class="formulario-taller">
+<p class="titulo" id="titulo-subtaller">Solicitud de Taller</p>
+      <!-- Número de personas -->
+      <label for="num-personas">Número de personas:</label>
+        <select id="num-personas" name="personas" required>
+          <option value="">Selecciona...</option>
+          <option value="4">4 personas</option>
+          <option value="5">5 personas</option>
+          <option value="6">6 personas</option>
+        </select>
+
+      <!-- Tipo de taller -->
+      <label for="tipo-taller">Escoge taller:</label>
+      <select id="tipo-taller" name="taller" required>
+        <option value="pendientes-iniciacion">Pendientes - Iniciación</option>
+        <option value="pendientes-intermedio">Pendientes - Intermedio</option>
+        <option value="pendientes-avanzado">Pendientes - Avanzado</option>
+      </select>
+
+      <!-- Menú -->
+      <label for="menu">Escoge el menú:</label>
+      <select id="menu" name="menu">
+        <option value="sin-menu">Sin menú</option>
+        <option value="completo">Menú completo</option>
+        <option value="sin-carne">Menú sin carne</option>
+        <option value="vegetariano">Menú vegetariano</option>
+        <option value="vegano">Menú vegano</option>
+      </select>
+
+      <!-- Selección de bebida -->
+      <div class="dropdown-bebidas">
+        <button type="button" id="toggle-bebidas">Seleccionar bebidas ▼</button>
+        <div class="bebidas-opciones oculto" id="lista-bebidas">
+          <label><input type="checkbox" value="2" data-nombre="Agua con gas"> Agua con gas (+2€)</label><br>
+          <label><input type="checkbox" value="3" data-nombre="Cerveza"> Cerveza (+3€)</label><br>
+          <label><input type="checkbox" value="3" data-nombre="Refresco"> Refresco (+3€)</label><br>
+          <label><input type="checkbox" value="4" data-nombre="Copa de vino"> Copa de vino (+4€)</label>
+        </div>
+      </div>
+
+      <!-- Bloquear acceso -->
+      <label>
+        <input type="checkbox" id="bloquear-acceso" name="bloqueo">
+        Bloquear acceso a personas ajenas
+      </label>
+
+      <!-- Fecha propuesta -->
+      <label for="fecha-propuesta">Proponer fecha:</label>
+      <input type="date" id="fecha-propuesta" name="fecha" required>
+
+      <!-- Resumen de pedido -->
+      <div class="factura-box">
+        <strong>Resumen del pedido:</strong>
+        <div id="detalle-factura" style="font-size: 0.9em; margin-top: 10px;"></div>
+        <p><strong>Total:</strong> <span id="total-euros">0.00</span> €</p>
+      </div>
+
+      <!-- Teléfono (opcional) -->
+      <label for="telefono">Teléfono (opcional)</label>
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          inputmode="tel"
+          placeholder="600 000 000"
+          pattern="^[+0-9\s()\-]{6,20}$"
+        />
+        <small class="ayuda-campo">
+          En caso de poner el teléfono te contactaremos vía WhatsApp; si no, te enviaremos un email.
+        </small>
+
+      <!-- Enviar -->
+      <button type="submit" class="boton-formulario">Enviar solicitud</button>
+    </form>
+  </section>
+
+
+
+
+
+<!---------------------------------FOOTER--------------------------------------------------------->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <h2 class="footer-title">Contacto</h2>
+
+    <a class="contact-row" href="mailto:tallereskibou@gmail.com">
+      <span class="icon">✉️</span>
+      <span>tallereskibou@gmail.com</span>
+    </a>
+
+    <a class="contact-row" href="https://www.instagram.com/kibou.es/" target="_blank" rel="noopener" aria-label="Instagram de Kibou">
+      <img class="icon-img" src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+      <span>kibou.es</span>
+    </a>
+
+    <div class="contact-row">
+      <span class="icon">📍</span>
+      <span>Esplugues de Llobregat</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../firebase.js"></script>
+<script type="module" src="solicitud.js"></script>
+
+
+</body>
+</html>

@@ -4,105 +4,160 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Talleres Kibou</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="inicio.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-
 </head>
 
 <body>
-<div class="contenido-fijo-350">
+<header>
+<nav class="navbar">
+  <!-- izquierda -->
+  <button class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+    <div></div><div></div><div></div>
+  </button>
 
-    <!-- Fila 1: Botón usuario -->
+  <!-- centro -->
+  <div class="nav-center">
     <div id="usuario-activo" class="usuario-box">
-      <span id="nombre-usuario" class="usuario-nombre">Nombre Usuario</span>
+      <span id="nombre-usuario" class="usuario-nombre">Marc Hidalgo</span>
       <div class="usuario-menu" id="menu-usuario">
         <span id="correo-usuario">correo@ejemplo.com</span><br>
         <button id="cerrar-sesion">Cerrar sesión</button>
-      </div> 
+      </div>
     </div>
 
-  <header>
+    <div class="auth-buttons">
+      <button onclick="window.location.href='../login/login.html'">Iniciar sesión</button>
+      <button onclick="window.location.href='../registro/registro.html'">Crear perfil</button>
+    </div>
+  </div>
 
- <div class="auth-buttons">
-  <button onclick="window.location.href='login/login.html'">Iniciar sesión</button>
-  <button onclick="window.location.href='registro/registro.html'">Crear perfil</button>
- </div>
-
-    <h1>Bienvenid@ a los talleres <span class="kibou">KIBOU</span></h1>
-    <h3>Esplugues de Llobregat (Barcelona)</h3>
-    <h2>¿Qué clase de experiencia estás buscando?</h2>
-    
-
-  </header>
-
-<div class="talleres-contenedor">
-  <!-- Primera caja -->
-  <a href="talleres/talleres.html" class="taller-link">
-  <section class="taller-box">
-    <h2 class="titulo-taller">Talleres</h2>
-    <img src="assets/taller.png" alt="Taller" class="imagen-taller">
-
-    <p class="descripcion-corta">
-      Disfruta de un taller único y personalizado donde crearás tus propias manualidades paso a paso.
-    </p>
-  </section>
+  <!-- derecha -->
+  <a href="carrito.html" class="icon-btn cart-btn" aria-label="Carrito">
+    <!-- tu SVG del carrito -->
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 12.39A2 2 0 0 0 9.62 15h7.76a2 2 0 0 0 1.96-1.61l1.38-7.39H6"></path>
+    </svg>
+    <span class="cart-badge" id="cart-count" hidden>0</span>
   </a>
 
-  <!-- Segunda caja -->
-   <a href="talleres/gastrotalleres.html" class="taller-link">
-  <section class="taller-box">
-    <h2 class="titulo-taller">Gastrotalleres</h2>
-    <img src="assets/gastrotaller.png" alt="Taller" class="imagen-gastrotaller">
+    <!-- Menú (absoluto, no ocupa espacio en la fila) -->
+  <div class="menu" id="menu">
+    <a href="index.html">Inicio</a>
+    <a href="pendientes/pendientes.html">Pendientes</a>
+    <a href="disponibles/disponibles.html">Talleres disponibles</a>
+    <a href="solicitud/solicitud.html">Solicitar taller personalizado</a>
+    <a href="info/info.html">Información</a>
+  </div>
+</nav>
+</header>
 
-    <p class="descripcion-corta">
-      Acompaña tu taller con una experiencia gastronómica que deleita los sentidos. Un momento único que combina creatividad, sabor y emoción.
-    </p>
-    
-  </section>
-  </a>
- 
-    <!-- tercera caja -->
-   <a href="personalizado/gtpsolicitud.html" class="taller-link">
-  <section class="taller-box">
-    <h2 class="titulo-taller">Solicitar evento a medida</h2>
-    <img src="assets/personalizado.png" alt="Taller" class="imagen-gastrotaller">
+<img src="assets/kibou.jpg">
 
-    <p class="descripcion-corta">
-      Seleccionar el tipo de taller que quereis hacer y el menú en caso de querer comida. Proponer una fecha y nos pondremos en contacto para verificar la fecha y atender vuestras dudas.
-    </p>
-    
-  </section>
-  </a>
 
+
+<section class="hero-slider" aria-label="Galería de imágenes">
+  <img src="assets/cabezera/image1.jpg" loading="eager" class="active">
+  <img src="assets/cabezera/image2.jpg"  loading="lazy">
+  <img src="assets/cabezera/image3.jpg"  loading="lazy">
+  <img src="assets/cabezera/image4.jpg"  loading="lazy">
+  <img src="assets/cabezera/image5.jpg"  loading="lazy">
+  <img src="assets/cabezera/image6.jpg"  loading="lazy">
+  <img src="assets/cabezera/image7.jpg"  loading="lazy">
+  <img src="assets/cabezera/image8.jpg"  loading="lazy">
+</section>
+
+<div class="contenido-fijo-350">
+
+<!------------ texto introductorio -------------->  
+
+<section class="textos">
+
+<p class="intro">
+  Es la chispa que nos impulsa a crear y a creer en todo lo bueno que está por venir.
+</p>
+
+<p class="intro">
+  🌿Cada pieza nace de un momento personal, donde la creación se convierte en expresión y refugio.
+</p>
+
+<p class="intro">
+  En Kibou celebramos la autenticidad, el proceso, la belleza de lo imperfecto.
+</p>
+
+<p class="intro">
+  Nos mueve compartir, aprender y la emoción de hacer las cosas con amor. 🌸
+</p>
+
+</section>
 </div>
 
-<script type="module" src="script.js"></script>
+
+
+<nav class="fondo">
+  
+  <div class="contenido-fijo-350">
+   <section class="textos">
+      <p class="tituloblanco"> Descubre la marca de la casa</p>
+    </section>
+
+    <section class="textos">
+      <p class="subtituloblanco"> El Gastrotaller</p>
+    </section>
+  </div>
+</nav>
+
+<section class="hero-slider" aria-label="Galería de imágenes">
+  <img src="assets/gastrotaller/salmon.jpg" loading="eager" class="active">
+  <img src="assets/cabezera/image6.jpg"  loading="lazy">
+  <img src="assets/gastrotaller/arroz.jpg"  loading="lazy">
+  <img src="assets/gastrotaller/copa.jpg"  loading="lazy">
+  <img src="assets/gastrotaller/brie.jpg"  loading="lazy">
+  <img src="assets/gastrotaller/cuchara.jpg"  loading="lazy">
+</section>
+
+<nav class="fondodos">
+  
+  <div class="contenido-fijo-350">
+   <section class="textos">
+      <p class="textoblanco"> Acompaña tu taller con una experiencia gastronómica que deleita los sentidos.</p>
+    </section>
+
+   <section class="textos">
+      <p class="textoblanco"> Un momento único que combina creatividad, sabor y emoción.</p>
+    </section>
+
+  </div>
+</nav>
 
 
 
-  <!-- autentificación usuario-->
-<script type="module">
-  import { auth } from "./firebase.js";
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const usuarioBox = document.getElementById("usuario-activo");
-  const cerrarSesionBtn = document.getElementById("cerrar-sesion");
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <h2 class="footer-title">Contacto</h2>
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      usuarioBox.style.display = "block";
-    } else {
-      usuarioBox.style.display = "none";
-    }
-  });
+    <a class="contact-row" href="mailto:tallereskibou@gmail.com">
+      <span class="icon">✉️</span>
+      <span>tallereskibou@gmail.com</span>
+    </a>
 
-  cerrarSesionBtn.addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.reload();
-  });
-</script>
+    <a class="contact-row" href="https://www.instagram.com/kibou.es/" target="_blank" rel="noopener" aria-label="Instagram de Kibou">
+      <img class="icon-img" src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+      <span>kibou.es</span>
+    </a>
 
-</div>
+    <div class="contact-row">
+      <span class="icon">📍</span>
+      <span>Esplugues de Llobregat</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="inicio.js"></script>
 
 </body>
 </html>

@@ -50,3 +50,32 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #d35400;
 }
+
+/*----------------botones solicitud de avisos...................*/
+
+fieldset.preferencias {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px dashed #e0a46b;
+  border-radius: 10px;
+  background: #fff9f2;
+}
+
+fieldset.preferencias legend {
+  font-weight: bold;
+  color: #2c3e50;
+  padding: 0 6px;
+}
+
+label.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 8px 0;
+  line-height: 1.3;
+}
+
+label.check input[type="checkbox"] {
+  margin-top: 2px; /* alinea mejor con el texto */
+}
+

@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = document.getElementById("password").value;
     const confirmar = document.getElementById("confirmar-password").value;
 
+    // ✅ nuevas preferencias
+    const notifPendientes = document.getElementById("notif-pendientes").checked;
+    const notifTalleres   = document.getElementById("notif-talleres").checked;
+
     if (password !== confirmar) {
       alert("Las contraseñas no coinciden.");
       return;
@@ -22,8 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const credenciales = await createUserWithEmailAndPassword(auth, email, password);
       const uid = credenciales.user.uid;
 
-      // ✅ Ahora pasamos UID junto con nombre y email
-      await guardarUsuario(uid, nombre, email);
+      // Pasamos preferencias a Firestore junto al usuario
+      await guardarUsuario(uid, nombre, email, {
+        pendientes: notifPendientes,
+        talleres: notifTalleres,
+      });
 
       alert("✅ Registro exitoso. Sesión iniciada.");
       window.location.href = "../index.html";
@@ -33,3 +40,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
