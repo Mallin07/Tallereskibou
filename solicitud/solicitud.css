@@ -338,3 +338,10 @@ header h2 {
   font-size: 0.85em;
   color: #555;
 }
+
+.formulario-taller input[type="date"] {
+  -webkit-appearance: none; /* quita estilos nativos en Safari/Chrome */
+  -moz-appearance: none;    /* en Firefox */
+  appearance: none;         
+  box-sizing: border-box;   /* asegura que padding no rompa el ancho */
+}

@@ -292,7 +292,7 @@ header h3 {
 .tarjeta-taller {
   flex: 0 0 auto;
   width: 140px;
-  height: 281.5px; /* Igual que la suma del grid interno */
+  height: 290.5px; /* Igual que la suma del grid interno */
   border: 2px solid rgb(0, 0, 0); /* Borde rojo general */
   border-radius: 12px;
   background-color: #fff;
@@ -303,7 +303,7 @@ header h3 {
 
 .grid-tarjeta {
   display: grid;
-  grid-template-rows: 187px 31.5px 31.5px 31.5px; /* Fila imagen, fila texto1, fila texto2 */
+  grid-template-rows: 187px 40.5px 31.5px 31.5px; /* Fila imagen, fila texto1, fila texto2 */
   height: 100%;
 }
 /* contenedor de la imagen de la tarjeta */

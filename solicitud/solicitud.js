@@ -1,7 +1,7 @@
 // ------------ Usuario con Firebase ------------ //
 import { auth, db } from "../firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // --------- Utils carrito ---------
 function getBgUrl(el) {
@@ -11,6 +11,10 @@ function getBgUrl(el) {
   return m ? m[1] : "";
 }
 const cartKey = (uid) => `cart:${uid}`;
+
+// Datos de usuario memorizados para la solicitud
+let currentUserName = null;
+let currentUserEmail = null;
 
 function updateCartBadge(uid) {
   const badge = document.getElementById("cart-count");
@@ -84,11 +88,15 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const docRef = doc(db, "usuarios", user.uid);
         const docSnap = await getDoc(docRef);
-        nombre.textContent = docSnap.exists()
-          ? `👤 ${docSnap.data().nombre}`
-          : `👤 ${user.email}`;
+        const nombreDB = docSnap.exists() ? (docSnap.data().nombre || null) : null;
+        nombre.textContent = nombreDB ? `👤 ${nombreDB}` : `👤 ${user.email}`;
         if (correo) correo.textContent = user.email;
-      } catch {}
+
+        currentUserName = nombreDB || user.displayName || null;
+      } catch {
+        currentUserName = user.displayName || null;
+      }
+      currentUserEmail = user.email || null;
 
       updateCartBadge(user.uid);
       markButtonsForUser(user);
@@ -97,6 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (botonesAuth) botonesAuth.style.display = "flex";
       updateCartBadge(null);
       markButtonsForUser(null);
+      currentUserName = null;
+      currentUserEmail = null;
     }
   });
 
@@ -130,47 +140,47 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --------- Carrito: click en "Al carrito" ----------
-    document.querySelectorAll(".tarjeta-taller .btn-carrito").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const user = auth.currentUser;
-        if (!user) {
-          alert("Necesitas iniciar sesión para añadir al carrito.");
-          return;
-        }
-  
-        const card = btn.closest(".tarjeta-taller");
-        const grid = card.querySelector(".grid-tarjeta");
-  
-        const fotoEl = grid.querySelector(".foto-taller");
-        const textos = grid.querySelectorAll(".texto-taller");
-        const nombre = (textos[0]?.textContent || "").trim();
-        const precioText = (textos[1]?.textContent || "").trim();
-        const precio = parseFloat(precioText.replace(/[^\d.,]/g, "").replace(",", "."));
-        const imagen = getBgUrl(fotoEl);
-  
-        const id = getProductIdFromCard(card);
-  
-        const key = cartKey(user.uid);
-        const cart = JSON.parse(localStorage.getItem(key) || "[]");
-  
-        if (cart.some(it => it.id === id)) {
-          disableBtn(btn);                 // por si acaso
-          alert("Este artículo ya está en tu carrito.");
-          return;
-        }
-  
-        cart.push({ id, nombre, precio, precioText, imagen });
-        localStorage.setItem(key, JSON.stringify(cart));
-        updateCartBadge(user.uid);
-  
-        disableBtn(btn);                   // bloquear inmediatamente
-      });
-    });
-  
-    // Marca estado inicial de botones según sesión actual
-    markButtonsForUser(auth.currentUser || null);
+  document.querySelectorAll(".tarjeta-taller .btn-carrito").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Necesitas iniciar sesión para añadir al carrito.");
+        return;
+      }
 
-   document.querySelectorAll('.escojer-clase-taller-box').forEach(box => {
+      const card = btn.closest(".tarjeta-taller");
+      const grid = card.querySelector(".grid-tarjeta");
+
+      const fotoEl = grid.querySelector(".foto-taller");
+      const textos = grid.querySelectorAll(".texto-taller");
+      const nombre = (textos[0]?.textContent || "").trim();
+      const precioText = (textos[1]?.textContent || "").trim();
+      const precio = parseFloat(precioText.replace(/[^\d.,]/g, "").replace(",", "."));
+      const imagen = getBgUrl(fotoEl);
+
+      const id = getProductIdFromCard(card);
+
+      const key = cartKey(user.uid);
+      const cart = JSON.parse(localStorage.getItem(key) || "[]");
+
+      if (cart.some(it => it.id === id)) {
+        disableBtn(btn);                 // por si acaso
+        alert("Este artículo ya está en tu carrito.");
+        return;
+      }
+
+      cart.push({ id, nombre, precio, precioText, imagen });
+      localStorage.setItem(key, JSON.stringify(cart));
+      updateCartBadge(user.uid);
+
+      disableBtn(btn);                   // bloquear inmediatamente
+    });
+  });
+
+  // Marca estado inicial de botones según sesión actual
+  markButtonsForUser(auth.currentUser || null);
+
+  document.querySelectorAll('.escojer-clase-taller-box').forEach(box => {
     box.addEventListener('click', () => {
       const selected = box.dataset.taller;
 
@@ -184,57 +194,56 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-// ================== Selección de subtaller ==================
-document.querySelectorAll('.escojer-clase-subtaller-box').forEach(box => {
-  box.addEventListener('click', () => {
-    // Desmarcar todos y marcar el seleccionado
-    document.querySelectorAll('.escojer-clase-subtaller-box').forEach(b => b.classList.remove('active'));
-    box.classList.add('active');
+  // ================== Selección de subtaller ==================
+  document.querySelectorAll('.escojer-clase-subtaller-box').forEach(box => {
+    box.addEventListener('click', () => {
+      // Desmarcar todos y marcar el seleccionado
+      document.querySelectorAll('.escojer-clase-subtaller-box').forEach(b => b.classList.remove('active'));
+      box.classList.add('active');
 
-    // Obtener el subtaller
-    const subtaller = box.dataset.subtaller;
+      // Obtener el subtaller
+      const subtaller = box.dataset.subtaller;
 
-    // Guardar el subtaller en los botones de solicitud
-    document.querySelectorAll('.boton-solicitud').forEach(btn => {
-      btn.dataset.subtaller = subtaller;
+      // Guardar el subtaller en los botones de solicitud
+      document.querySelectorAll('.boton-solicitud').forEach(btn => {
+        btn.dataset.subtaller = subtaller;
+      });
+
+      // Mostrar sección de comida
+      const comida = document.getElementById("Pica-pica");
+      if (comida) {
+        comida.classList.add("active");
+        comida.scrollIntoView({ behavior: "smooth" });
+      }
     });
+  });
 
-    // Mostrar sección de comida
-    const comida = document.getElementById("Pica-pica");
-    if (comida) {
-      comida.classList.add("active");
-      comida.scrollIntoView({ behavior: "smooth" });
+  // ------------ Botón de información ------------ //
+  document.querySelectorAll('.caja-comida').forEach(caja => {
+    const infoBtn = caja.querySelector('.boton-info');
+    const modal = caja.querySelector('.info-modal');
+
+    if (infoBtn && modal) {
+      infoBtn.addEventListener('click', () => {
+        modal.classList.toggle('oculto');
+        infoBtn.textContent = modal.classList.contains('oculto') ? 'Info' : 'Cerrar';
+      });
     }
   });
-});
 
+  // ================== Botón de solicitud ==================
+  document.querySelectorAll('.boton-solicitud').forEach(boton => {
+    boton.addEventListener('click', function () {
+      const comida = this.closest('.caja-comida')?.dataset.taller;
+      const subtaller = this.dataset.subtaller;
 
-// ------------ Botón de información ------------ //
-document.querySelectorAll('.caja-comida').forEach(caja => {
-  const infoBtn = caja.querySelector('.boton-info');
-  const modal = caja.querySelector('.info-modal');
-
-  if (infoBtn && modal) {
-    infoBtn.addEventListener('click', () => {
-      modal.classList.toggle('oculto');
-      infoBtn.textContent = modal.classList.contains('oculto') ? 'Info' : 'Cerrar';
+      if (subtaller && comida) {
+        window.location.href = `gtpsolicitud.html?subtaller=${encodeURIComponent(subtaller)}&tipo=gastrotaller&comida=${encodeURIComponent(comida)}`;
+      } else {
+        alert("Debes seleccionar una técnica y una comida antes de continuar.");
+      }
     });
-  }
-});
-
-// ================== Botón de solicitud ==================
-document.querySelectorAll('.boton-solicitud').forEach(boton => {
-  boton.addEventListener('click', function () {
-    const comida = this.closest('.caja-comida')?.dataset.taller;
-    const subtaller = this.dataset.subtaller;
-
-    if (subtaller && comida) {
-      window.location.href = `gtpsolicitud.html?subtaller=${encodeURIComponent(subtaller)}&tipo=gastrotaller&comida=${encodeURIComponent(comida)}`;
-    } else {
-      alert("Debes seleccionar una técnica y una comida antes de continuar.");
-    }
   });
-});
 
   // =================== Mostrar título dinámico ===================
   const params = new URLSearchParams(window.location.search);
@@ -251,48 +260,85 @@ document.querySelectorAll('.boton-solicitud').forEach(boton => {
   }
 
   // =================== Suma de precios ===================
-  const numPersonasInput = document.getElementById('num-personas');
-  const bloquearCheckbox = document.getElementById('bloquear-acceso');
-  const detalleFactura = document.getElementById('detalle-factura');
-  const totalEuros = document.getElementById('total-euros');
+  const form              = document.getElementById('formulario-taller');
+  const numPersonasInput  = form?.querySelector('#num-personas');
+  const tipoTallerSelect  = form?.querySelector('#tipo-taller');
+  const menuSelect        = form?.querySelector('select[name="menu"]'); // 👈 ACOTADO
+  const bloquearCheckbox  = form?.querySelector('#bloquear-acceso');
+  const detalleFactura    = form?.querySelector('#detalle-factura');
+  const totalEuros        = form?.querySelector('#total-euros');
 
-  const precios = {
-    terracota: { porPersona: 45, bloqueo: { 4: 40, 5: 20, 6: 0 } },
-    flores: { porPersona: 55, bloqueo: { 4: 50, 5: 25, 6: 0 } }
+  // Precios por tipo de taller (ajusta a tus tarifas)
+  const tarifas = {
+    'pendientes-iniciacion':  { porPersona: 45, bloqueo: { 4: 40, 5: 20, 6: 0 } },
+    'pendientes-intermedio':  { porPersona: 50, bloqueo: { 4: 40, 5: 20, 6: 0 } },
+    'pendientes-avanzado':    { porPersona: 55, bloqueo: { 4: 40, 5: 20, 6: 0 } },
   };
 
+  // Formateador €
+  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
+
   function calcularTotal() {
-    if (!subtaller || !(subtaller in precios)) return;
+    const tipo = tipoTallerSelect?.value;
+    const plan = tarifas[tipo];
+    if (!plan) {
+      if (detalleFactura) detalleFactura.innerHTML = '';
+      if (totalEuros) totalEuros.textContent = '0.00';
+      return;
+    }
 
-    const numPersonas = parseInt(numPersonasInput?.value || 0);
-    const bloquear = bloquearCheckbox?.checked;
-    const bebidaSeleccionadas = Array.from(document.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked'));
+    const numPersonas = parseInt(numPersonasInput?.value || '0', 10);
+    const bloquear    = !!bloquearCheckbox?.checked;
 
-    const precioPorPersona = precios[subtaller].porPersona;
-    const precioBloqueo = bloquear ? precios[subtaller].bloqueo[numPersonas] || 0 : 0;
+    // Bebidas (acotado al form)
+    const bebidaSeleccionadas = Array.from(
+      form?.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked') || []
+    );
+    const totalBebidas = bebidaSeleccionadas.reduce((s, opt) => {
+      const v = parseFloat((opt.value || '').replace(',', '.'));
+      return s + (isNaN(v) ? 0 : v);
+    }, 0);
 
-    const totalPersonas = numPersonas * precioPorPersona;
-    const totalBebidas = bebidaSeleccionadas.reduce((suma, opt) => suma + parseFloat(opt.value), 0);
-    const totalFinal = totalPersonas + precioBloqueo + totalBebidas;
+    const precioPorPersona = plan.porPersona;
+    const totalPersonas    = numPersonas * precioPorPersona;
+
+    // Bloqueo: solo si hay nº válido
+    const precioBloqueo = (bloquear && [4,5,6].includes(numPersonas))
+      ? (plan.bloqueo[numPersonas] || 0)
+      : 0;
+
+    // Menú (lee del select correcto)
+    const menuElegido = (menuSelect && menuSelect.value) ? menuSelect.value : 'sin-menu';
+    const precioMenu  = (menuElegido === 'sin-menu') ? 0 : 20;
+    const totalMenu   = precioMenu * numPersonas;
+
+    const totalFinal = totalPersonas + precioBloqueo + totalBebidas + totalMenu;
 
     if (detalleFactura && totalEuros) {
       detalleFactura.innerHTML = `
-        - ${numPersonas} personas x ${precioPorPersona}€ = ${totalPersonas}€<br>
-        - Bloqueo de acceso: ${bloquear ? precioBloqueo + '€' : 'No'}<br>
-        - Bebidas: ${bebidaSeleccionadas.length > 0
-          ? bebidaSeleccionadas.map(opt => opt.dataset.nombre).join(', ')
-          : 'Ninguna'}<br>
+        - ${numPersonas || 0} persona(s) × ${eur(precioPorPersona)} = ${eur(totalPersonas)}<br>
+        - Menú: ${menuElegido === 'sin-menu' ? 'No' : `${eur(precioMenu)} × ${numPersonas} = ${eur(totalMenu)}`}<br>
+        - Bloqueo de acceso: ${bloquear ? eur(precioBloqueo) : 'No'}<br>
+        - Bebidas: ${
+          bebidaSeleccionadas.length
+            ? bebidaSeleccionadas.map(opt => opt.dataset.nombre).join(', ')
+            : 'Ninguna'
+        }<br>
       `;
       totalEuros.textContent = totalFinal.toFixed(2);
     }
   }
 
-  if (numPersonasInput) numPersonasInput.addEventListener('change', calcularTotal);
-  if (bloquearCheckbox) bloquearCheckbox.addEventListener('change', calcularTotal);
-  document.querySelectorAll('#lista-bebidas input[type="checkbox"]').forEach(cb => {
+  // Eventos
+  numPersonasInput?.addEventListener('change', calcularTotal);
+  tipoTallerSelect?.addEventListener('change', calcularTotal);
+  menuSelect?.addEventListener('change', calcularTotal);
+  bloquearCheckbox?.addEventListener('change', calcularTotal);
+  (form?.querySelectorAll('#lista-bebidas input[type="checkbox"]') || []).forEach(cb => {
     cb.addEventListener('change', calcularTotal);
   });
 
+  // Inicial
   calcularTotal();
 
   // =================== Mostrar/Ocultar bebidas ===================
@@ -306,4 +352,143 @@ document.querySelectorAll('.boton-solicitud').forEach(boton => {
         : 'Ocultar bebidas ▲';
     });
   }
-});   
+
+  // ===== Envío de la solicitud: guarda en Firestore + crea email en `mail` =====
+  const formSolicitud = document.getElementById('formulario-taller');
+  if (formSolicitud) {
+    formSolicitud.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const personas   = parseInt(formSolicitud.querySelector('#num-personas')?.value || '0', 10);
+      const tipoTaller = formSolicitud.querySelector('#tipo-taller')?.value || '';
+      const menuValue  = formSolicitud.querySelector('select[name="menu"]')?.value || 'sin-menu';
+      const bloquear   = !!formSolicitud.querySelector('#bloquear-acceso')?.checked;
+      const fecha      = formSolicitud.querySelector('#fecha-propuesta')?.value || '';
+      const telefono   = formSolicitud.querySelector('#telefono')?.value || '';
+
+      // Bebidas seleccionadas
+      const bebidas = Array.from(
+        formSolicitud.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked')
+      ).map(chk => ({ nombre: chk.dataset.nombre, precio: parseFloat((chk.value||'0').replace(',','.'))||0 }));
+      const totalBebidas = bebidas.reduce((s,b)=>s+b.precio,0);
+
+      // Validaciones mínimas
+      if (!tipoTaller || !personas) {
+        alert("Selecciona el tipo de taller y el número de personas.");
+        return;
+      }
+
+      const plan = tarifas[tipoTaller];
+      const precioPorPersona = plan.porPersona;
+      const totalPersonas = precioPorPersona * personas;
+      const precioBloqueo = (bloquear && [4,5,6].includes(personas)) ? (plan.bloqueo[personas] || 0) : 0;
+      const precioMenuUnidad = (menuValue === 'sin-menu') ? 0 : 20;
+      const totalMenu = precioMenuUnidad * personas;
+      const total = totalPersonas + precioBloqueo + totalBebidas + totalMenu;
+
+      const payload = {
+        createdAt: serverTimestamp(),
+        user: {
+          uid: auth.currentUser?.uid || null,
+          nombre: currentUserName || null,
+          email: currentUserEmail || null,
+        },
+        solicitud: {
+          personas, tipoTaller,
+          menu: menuValue,
+          bloquear,
+          fecha,
+          telefono: telefono || null,
+          bebidas: bebidas.map(b => b.nombre)
+        },
+        precios: {
+          porPersona: precioPorPersona,
+          totalPersonas,
+          bloqueo: precioBloqueo,
+          bebidas: totalBebidas,
+          menuUnidad: precioMenuUnidad,
+          totalMenu,
+          total,
+          currency: "EUR"
+        }
+      };
+
+      try {
+        // 1) Guardar solicitud
+        const ref = await addDoc(collection(db, "solicitudes"), payload);
+
+        // 2) Crear email en colección `mail` para Kibou
+        const displayName = payload.user.nombre || payload.user.email || payload.user.uid || "Cliente";
+        const bebidasTxt = bebidas.length ? bebidas.map(b=>b.nombre).join(", ") : "Ninguna";
+        const asunto = `Nueva solicitud #${ref.id} — ${tipoTaller} (${personas}p)`;
+
+        const texto =
+`Nueva solicitud #${ref.id}
+
+[Usuario]
+- Nombre: ${payload.user.nombre || "-"}
+- Email: ${payload.user.email || "-"}
+
+[Solicitud]
+- Taller: ${tipoTaller}
+- Personas: ${personas}
+- Menú: ${menuValue}
+- Bloqueo acceso: ${bloquear ? "Sí" : "No"}
+- Fecha propuesta: ${fecha || "-"}
+- Teléfono: ${telefono || "-"}
+- Bebidas: ${bebidasTxt}
+
+[Precios]
+- Por persona: ${precioPorPersona.toFixed(2)} €
+- Total personas: ${totalPersonas.toFixed(2)} €
+- Bloqueo: ${precioBloqueo.toFixed(2)} €
+- Bebidas: ${totalBebidas.toFixed(2)} €
+- Menú (unidad): ${precioMenuUnidad.toFixed(2)} €
+- Total menú: ${totalMenu.toFixed(2)} €
+--------------------------
+TOTAL: ${total.toFixed(2)} €`;
+
+        const html =
+`<h2>Nueva solicitud <strong>#${ref.id}</strong></h2>
+<h3>Usuario</h3>
+<ul>
+  <li><b>Nombre:</b> ${payload.user.nombre || "-"}</li>
+  <li><b>Email:</b> ${payload.user.email || "-"}</li>
+</ul>
+<h3>Solicitud</h3>
+<ul>
+  <li><b>Taller:</b> ${tipoTaller}</li>
+  <li><b>Personas:</b> ${personas}</li>
+  <li><b>Menú:</b> ${menuValue}</li>
+  <li><b>Bloqueo acceso:</b> ${bloquear ? "Sí" : "No"}</li>
+  <li><b>Fecha propuesta:</b> ${fecha || "-"}</li>
+  <li><b>Teléfono:</b> ${telefono || "-"}</li>
+  <li><b>Bebidas:</b> ${bebidasTxt}</li>
+</ul>
+<h3>Precios</h3>
+<ul>
+  <li>Por persona: ${precioPorPersona.toFixed(2)} €</li>
+  <li>Total personas: ${totalPersonas.toFixed(2)} €</li>
+  <li>Bloqueo: ${precioBloqueo.toFixed(2)} €</li>
+  <li>Bebidas: ${totalBebidas.toFixed(2)} €</li>
+  <li>Menú (unidad): ${precioMenuUnidad.toFixed(2)} €</li>
+  <li>Total menú: ${totalMenu.toFixed(2)} €</li>
+</ul>
+<p style="font-weight:700">TOTAL: ${total.toFixed(2)} €</p>`;
+
+        await addDoc(collection(db, "mail"), {
+          to: "tallereskibou@gmail.com",
+          replyTo: (currentUserEmail ? `${displayName} <${currentUserEmail}>` : undefined),
+          message: { subject: asunto, text: texto, html }
+        });
+
+        alert("¡Solicitud enviada! Te contactaremos en breve.");
+        formSolicitud.reset();
+        calcularTotal();
+      } catch (err) {
+        console.error(err);
+        alert("No se pudo enviar la solicitud. Intenta de nuevo.");
+      }
+    });
+  }
+});
