@@ -4,67 +4,91 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // --------- Utils carrito ---------
-function getBgUrl(el) {
-  if (!el) return "";
-  const bg = getComputedStyle(el).backgroundImage;
-  const m = bg && bg.match(/url\(["']?(.+?)["']?\)/);
-  return m ? m[1] : "";
-}
 const cartKey = (uid) => `cart:${uid}`;
+const fmtEUR = (n) => Number(n).toLocaleString("es-ES", { style: "currency", currency: "EUR" });
 
 function updateCartBadge(uid) {
   const badge = document.getElementById("cart-count");
   if (!badge) return;
   if (!uid) { badge.hidden = true; return; }
   const cart = JSON.parse(localStorage.getItem(cartKey(uid)) || "[]");
-  const total = cart.length;                // artículos únicos
+  const total = cart.length; // artículos únicos
   badge.textContent = String(total);
   badge.hidden = total === 0;
 }
 
-// ID estable por tarjeta (href o nombre|imagen)
-function getProductIdFromCard(card){
+// Lee id (Firestore), nombre y precio desde data-*
+function getProductMetaFromCard(card) {
   const grid = card.querySelector(".grid-tarjeta");
-  const fotoEl = grid?.querySelector(".foto-taller");
-  const textos = grid?.querySelectorAll(".texto-taller") || [];
-  const nombre = (textos[0]?.textContent || "").trim();
-  const imagen = getBgUrl(fotoEl);
-  const linkHref = card.querySelector(".taller-link")?.getAttribute("href");
-  return linkHref || `${nombre}|${imagen}`;
+  const imgEl = grid?.querySelector(".foto-taller");
+  const fallBackName = (grid?.querySelectorAll(".texto-taller")[0]?.textContent || "").trim();
+  const fallBackPriceText = (grid?.querySelectorAll(".texto-taller")[1]?.textContent || "").trim();
+  const fallBackPrice = parseFloat(fallBackPriceText.replace(/[^\d.,]/g, "").replace(",", "."));
+
+  const id = card.dataset.id?.trim();
+  const nombre = (card.dataset.name || fallBackName || "").trim();
+  const precio = card.dataset.price ? parseFloat(card.dataset.price) : fallBackPrice;
+  const imagen = imgEl?.getAttribute("src") || "";
+
+  return { id, nombre, precio, precioText: fmtEUR(precio), imagen };
 }
 
 // Mutadores de botón
-function disableBtn(btn){
+function disableBtn(btn) {
   btn.textContent = "Agotado";
   btn.classList.add("agotado");
   btn.setAttribute("aria-disabled","true");
   btn.disabled = true;
 }
-function enableBtn(btn){
+function enableBtn(btn) {
   btn.textContent = "Al carrito";
   btn.classList.remove("agotado");
   btn.removeAttribute("aria-disabled");
   btn.disabled = false;
 }
 
-// Marca botones según carrito/usuario
+// Marca botones según carrito/usuario (sin pisar los que ya están agotados por Firestore)
 function markButtonsForUser(user){
   const btns = document.querySelectorAll(".tarjeta-taller .btn-carrito");
   if (!btns.length) return;
 
   if (!user){
-    btns.forEach(enableBtn);   // sin sesión: activos (validará en click)
+    btns.forEach(btn => { if (!btn.classList.contains("agotado")) enableBtn(btn); });
     return;
   }
   const key = cartKey(user.uid);
   const cart = JSON.parse(localStorage.getItem(key) || "[]");
 
-  btns.forEach(btn=>{
+  btns.forEach(btn => {
+    if (btn.classList.contains("agotado")) return; // ya marcado por Firestore
     const card = btn.closest(".tarjeta-taller");
-    const id = getProductIdFromCard(card);
+    const { id } = getProductMetaFromCard(card);
     if (cart.some(it => it.id === id)) disableBtn(btn);
     else enableBtn(btn);
   });
+}
+
+// Chequea Firestore y deshabilita botones vendidos
+async function refreshAvailabilityFromFirestore() {
+  const cards = document.querySelectorAll(".tarjeta-taller");
+  for (const card of cards) {
+    const id = card.dataset.id;
+    const btn = card.querySelector(".btn-carrito");
+    if (!id || !btn) continue;
+
+    try {
+      const snap = await getDoc(doc(db, "productos", id));
+      if (snap.exists()) {
+        const p = snap.data();
+        const sold = (p.status && p.status !== "available")
+                  || (p.available === false)
+                  || (typeof p.stock === "number" && p.stock <= 0);
+        if (sold) disableBtn(btn);
+      }
+    } catch (e) {
+      console.warn("No se pudo leer producto", id, e);
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -91,11 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch {}
 
       updateCartBadge(user.uid);
-      markButtonsForUser(user);
+      await refreshAvailabilityFromFirestore(); // primero Firestore
+      markButtonsForUser(user);                 // luego estado por carrito
     } else {
       box?.classList.remove("visible");
       if (botonesAuth) botonesAuth.style.display = "flex";
       updateCartBadge(null);
+      await refreshAvailabilityFromFirestore();
       markButtonsForUser(null);
     }
   });
@@ -175,78 +201,72 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Necesitas iniciar sesión para añadir al carrito.");
         return;
       }
+      if (btn.classList.contains("agotado") || btn.disabled) return;
 
       const card = btn.closest(".tarjeta-taller");
-      const grid = card.querySelector(".grid-tarjeta");
+      const meta = getProductMetaFromCard(card);
 
-      const fotoEl = grid.querySelector(".foto-taller");
-      const textos = grid.querySelectorAll(".texto-taller");
-      const nombre = (textos[0]?.textContent || "").trim();
-      const precioText = (textos[1]?.textContent || "").trim();
-      const precio = parseFloat(precioText.replace(/[^\d.,]/g, "").replace(",", "."));
-      const imagen = getBgUrl(fotoEl);
-
-      const id = getProductIdFromCard(card);
+      if (!meta.id) {
+        alert("Este producto no tiene id configurado.");
+        return;
+      }
 
       const key = cartKey(user.uid);
       const cart = JSON.parse(localStorage.getItem(key) || "[]");
 
-      if (cart.some(it => it.id === id)) {
-        disableBtn(btn);                 // por si acaso
+      if (cart.some(it => it.id === meta.id)) {
+        disableBtn(btn);
         alert("Este artículo ya está en tu carrito.");
         return;
       }
 
-      cart.push({ id, nombre, precio, precioText, imagen });
+      cart.push(meta);
       localStorage.setItem(key, JSON.stringify(cart));
       updateCartBadge(user.uid);
-
-      disableBtn(btn);                   // bloquear inmediatamente
+      disableBtn(btn); // bloquear inmediatamente
     });
   });
 
-  // Marca estado inicial de botones según sesión actual
-  markButtonsForUser(auth.currentUser || null);
+  // Estado inicial: primero Firestore, luego carrito
+  (async () => {
+    await refreshAvailabilityFromFirestore();
+    markButtonsForUser(auth.currentUser || null);
+  })();
 
-// ------- Lightbox para imágenes -------
-function ensureLightbox() {
-  let lb = document.getElementById("lightbox");
-  if (!lb) {
-    lb = document.createElement("div");
-    lb.id = "lightbox";
-    lb.className = "lightbox";
-    lb.innerHTML = `<img alt="">`;      // 👈 sin botón “×”
-    document.body.appendChild(lb);
+  // ------- Lightbox para imágenes -------
+  function ensureLightbox() {
+    let lb = document.getElementById("lightbox");
+    if (!lb) {
+      lb = document.createElement("div");
+      lb.id = "lightbox";
+      lb.className = "lightbox";
+      lb.innerHTML = `<img alt="">`;
+      document.body.appendChild(lb);
+    }
+    return lb;
   }
-  return lb;
-}
-const lightbox = ensureLightbox();
-const lbImg = lightbox.querySelector("img");
+  const lightbox = ensureLightbox();
+  const lbImg = lightbox.querySelector("img");
 
-function openLightbox(src, alt) {
-  lbImg.src = src;
-  lbImg.alt = alt || "";
-  lightbox.classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeLightbox() {
-  lightbox.classList.remove("open");
-  lbImg.removeAttribute("src");
-  document.body.style.overflow = "";
-}
+  function openLightbox(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || "";
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    lbImg.removeAttribute("src");
+    document.body.style.overflow = "";
+  }
 
-/* Cierra con cualquier clic (fondo o imagen) */
-lightbox.addEventListener("click", closeLightbox);
-/* También con Escape */
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+  lightbox.addEventListener("click", closeLightbox);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
 
-/* Abre al clicar la miniatura */
-document.querySelectorAll(".foto-taller").forEach((img) => {
-  img.addEventListener("click", () => {
-    const full = img.dataset.full || img.currentSrc || img.src;
-    openLightbox(full, img.alt || "");
+  document.querySelectorAll(".foto-taller").forEach((img) => {
+    img.addEventListener("click", () => {
+      const full = img.dataset.full || img.currentSrc || img.src;
+      openLightbox(full, img.alt || "");
+    });
   });
-});
-
-
 });
