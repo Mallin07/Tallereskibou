@@ -20,23 +20,52 @@ header {
   z-index: 1000;     /* para que quede por encima del resto */
 }
 
-header h2 {
+header h1 {
+  font-family: "Inter", system-ui, -apple-system, Roboto, Arial, sans-serif;
   font-size: 1.5em;
-  color: #ca8c19;
-  font-weight: normal;
-  text-align: center; /* ✅ centra el texto */
+  color: #2c3e50;
 }
 
-.textocentrado {
-text-align: center;
+header h2 {
+  font-size: 1.0em;
+  color: #1b1b1b;
+  font-weight: normal;
+}
+
+header h3 {
+  font-size: 1.2em;
+  color: #04660c;
+  font-weight: Bolder;
 }
 
 .titulo {
-  font-size: 1.2em;
-  color: #e67e22;
-  font-weight: bold;
-  text-align: center; /* ✅ centra el texto */
+  font-size: 1.4em;
+  color: #e67e22;   
+  font-weight: Bolder;
+  text-align: center;
+  align-items: center;
 }
+
+.subtitulo {
+  font-size: 1.2em;
+  color: #185c24;   
+  font-weight: Bolder;
+  text-align: center;
+  align-items: center;
+}
+
+.fecha {
+  font-size: 1.0em;
+  color: #000000;   
+  font-weight: Bolder;
+  text-align: center;
+  align-items: center;
+}
+
+.espaciado {
+  margin-top: 1em; /* puedes ajustar el valor */
+}
+
 :root { --nav-h: 40px; }
 
 /* Header barra */
@@ -47,6 +76,29 @@ text-align: center;
   gap: 10px;
   padding: 10px 15px;
   background: #333; 
+  color: #fff;
+  position: relative; /* para posicionar .menu debajo */
+  min-height: var(--nav-h);
+}
+
+.fondo{
+  display: grid;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+  padding: 10px 15px;
+  background: #4d8aa1; 
+  color: #fff;
+  position: relative; /* para posicionar .menu debajo */
+  min-height: var(--nav-h);
+}
+
+.fondodos{
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: #4d8aa1; 
   color: #fff;
   position: relative; /* para posicionar .menu debajo */
   min-height: var(--nav-h);
@@ -178,7 +230,6 @@ text-align: center;
 /* Utilidad: oculto accesible */
 .oculto{ visibility:hidden; opacity:0; pointer-events:none; }
 
-
 /* =====................ FOOTER ...................===== */
 .site-footer {
   margin-top: auto; 
@@ -235,162 +286,170 @@ text-align: center;
   display: inline-block;
 }
 
+/* ------------------- CONTENEDOR PRINCIPAL ------------------------ */
+
+.contenido-fijo-350 {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/*............................BOTÓN CARRITO........................*/
+
+.btn-carrito {
+  display: block;     /* que sea bloque */
+  margin: 20px auto;  /* esto lo centra horizontal */
+  width: 50%;
+  margin-top: 20px;
+  background-color: #e67e22;
+  border-radius: 12px; /* redondea las esquinas */
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: px;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-carrito:hover { background-color: #d35400; }
+.btn-carrito:active { transform: translateY(1px); }
+
+/* Estado agotado/inutilizable */
+.btn-carrito:disabled,
+.btn-carrito.agotado{
+  background: #bdbdbd;
+  cursor: not-allowed;
+  opacity: .8;
+}
+
+
+/* .................separa solo párrafos consecutivos.............. */
+
+.intro { 
+  text-align: center; 
+  margin: 0; 
+}
+
+.intro:first-of-type {
+  margin-top: 14px;  /* separa del bloque anterior (la imagen) */
+}
+
+.intro + .intro { 
+  margin-top: 12px;  /* separación entre párrafos */
+}
+
+.textos { font-family: "Inter", system-ui, -apple-system, Roboto, Arial, sans-serif; }
 
 /* ------------------- CONTENEDOR PRINCIPAL ------------------------ */
 
-.contenido-fijo-350{
+.contenido-fijo-350 {
   width: 100%;
-  max-width: 400px;      /* igual que el form */
-  padding: 0 12px;
+  max-width: 360px;
   margin: 0 auto;
+  padding: 0 10px;
   box-sizing: border-box;
-  display: flex;         /* 👈 centrará el hijo */
-  justify-content: center;
 }
 
+/*..................................imagenes portada.......................................*/
 
-/* ========== BOTONES ========== */
+.hero-slider {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
 
-/* Botón de formulario general */
-.boton-formulario {
+/* Ocupamos todo el ancho, fijamos alto sin “saltos” (evita CLS) */
+.hero-slider img {
+  width: 100%;
+  display: none;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;   /* alto automático; si prefieres fijo, usa height: 200px; */
+}
+
+/* Imagen visible + transición */
+.hero-slider img.active {
+  display: block;
+  animation: fadeIn 800ms ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: .2; }
+  to   { opacity: 1; }
+}
+
+/* .................separa solo párrafos consecutivos.............. */
+
+.intro { 
+  text-align: center; 
+  margin: 0; 
+}
+
+.intro:first-of-type {
+  margin-top: 14px;  /* separa del bloque anterior (la imagen) */
+}
+
+.intro + .intro { 
+  margin-top: 12px;  /* separación entre párrafos */
+}
+
+.textos { font-family: "Inter", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+
+/*----------------imagen taller--------------*/
+
+.imagen-precio {
+  display: block;          /* para que funcione margin auto */
+  margin: 20px auto;       /* centrada horizontal */
+  width: 60px;            /* controla el tamaño (ajusta a tu gusto) */
+  height: 60px;           /* mismo que width para mantener círculo */
+  border-radius: 50%;      /* hace la imagen redonda */
+  object-fit: cover;       /* recorta y rellena sin deformar */
+}
+
+/*-------------botón inscripción---------------*/
+
+/* ---------------------------------Inscripciones----------------------------------- */
+
+.taller-box {
+  text-align: center;
+  margin-bottom: 30px;  /* 👈 espacio antes del footer */
+}
+
+.selector-plazas {
+  display: block;         /* que ocupe línea completa */
+  margin: 10px auto;      /* centrado con margen */
+  padding: 6px;
+  width: 80px;            /* ancho más compacto */
+  text-align: center;     /* el número dentro centrado */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.boton-inscribirse {
+  display: block;         
+  margin: 10px auto 0;    
+  padding: 10px 20px;
   background-color: #006411;
   color: white;
-  padding: 10px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  display: block;
-  margin: 20px auto 0;
-}
-
-
-/* ========== Solicitud ========== */
-
-.formulario-taller {
-  background: #fff8ee;
-  padding: 20px;
-  border-radius: 16px;
-  border: 2px solid #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   font-size: 1em;
-  font-family: Arial, sans-serif;
-  margin: 40px auto;       /* 🔥 Centra horizontal y da espacio vertical */
-  max-width: 400px;        /* 🔒 Ancho controlado */
-  width: 90%;              /* ✅ Responsivo */
 }
 
-.formulario-taller label {
-  display: block;
-  margin: 15px 0 5px;
-  font-weight: bold;
+.boton-inscribirse:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
 }
 
-.formulario-taller select,
-.formulario-taller input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.boton-inscribirse.inscrito {
+  background-color: #e74c3c; /* rojo fuerte */
+  color: white;
 }
 
-.factura-box {
-  background: #f9f9f9;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-/*------------------BEBIDAS----------------*/
-.dropdown-bebidas {
-  position: relative;
-  width: 95%;
-  margin-top: 15px;
-}
-
-#toggle-bebidas {
-  width: 100%;
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 6px;
-  text-align: left;
-  cursor: pointer;
-}
-
-#toggle-bebidas:hover {
-  background-color: #d35400;
-}
-
-.bebidas-opciones {
-  position: absolute;
-  width: 100%;
-  background: #fff8ee;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-top: 5px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 10;
-}
-
-.cantidad-bebida {
-  width: 60px;
-  margin-left: 8px;
-  padding: 4px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-/* Caja de bebidas más compacta */
-.bebidas-opciones label {
-  font-size: 0.9em;
-  line-height: 1.2;
-  display: flex;
-  align-items: center;
-  gap: 8px;          /* separa checkbox del resto */
-  margin: 4px 0;
-}
-
-.bebidas-opciones input[type="checkbox"] {
-  flex-shrink: 0;    /* evita que se deforme */
-}
-
-.bebidas-opciones .texto-bebida {
-  flex: 1;           /* ocupa todo el espacio posible */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.bebidas-opciones .cantidad-bebida {
-  width: 35px;       /* 🔹 más estrecho */
-  margin-left: 8px;
-  padding: 2px;      /* menos relleno interno */
-  font-size: 0.8em;  /* letra más pequeña */
-  text-align: center;/* centrar el número */
-}
-
-.sep-bebidas { /*separación entre apartados*/
-  border: none;
-  border-top: 1px dashed #bbb; /* línea discontinua */
-  margin: 8px 0;
-}
-
-/*...........................................................*/
-.ayuda-campo {
-  display: block;
-  margin-top: 4px;
-  font-size: 0.85em;
-  color: #555;
-}
-
-.formulario-taller input[type="date"] {
-  -webkit-appearance: none; /* quita estilos nativos en Safari/Chrome */
-  -moz-appearance: none;    /* en Firefox */
-  appearance: none;         
-  box-sizing: border-box;   /* asegura que padding no rompa el ancho */
+.boton-inscribirse.inscrito:hover {
+  background-color: #c0392b; /* rojo más oscuro al pasar el mouse */
 }

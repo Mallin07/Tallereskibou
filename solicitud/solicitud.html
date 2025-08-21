@@ -60,6 +60,7 @@
 <section class="contenido-fijo-350">
     <form id="formulario-taller" class="formulario-taller">
 <p class="titulo" id="titulo-subtaller">Solicitud de Taller</p>
+<p class="textocentrado">En caso de tener dudas, en la pestaña de información encontrareis todo detallado.</p>
       <!-- Número de personas -->
       <label for="num-personas">Número de personas:</label>
         <select id="num-personas" name="personas" required>
@@ -91,12 +92,102 @@
       <div class="dropdown-bebidas">
         <button type="button" id="toggle-bebidas">Seleccionar bebidas ▼</button>
         <div class="bebidas-opciones oculto" id="lista-bebidas">
-          <label><input type="checkbox" value="2" data-nombre="Agua con gas"> Agua con gas (+2€)</label><br>
-          <label><input type="checkbox" value="3" data-nombre="Cerveza"> Cerveza (+3€)</label><br>
-          <label><input type="checkbox" value="3" data-nombre="Refresco"> Refresco (+3€)</label><br>
-          <label><input type="checkbox" value="4" data-nombre="Copa de vino"> Copa de vino (+4€)</label>
-        </div>
+
+          <label>
+            <input type="checkbox" data-precio="0" data-nombre="Agua">
+            <span class="texto-bebida">
+              Agua (+0€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <hr class="sep-bebidas">
+
+          <label>
+            <input type="checkbox" data-precio="10" data-nombre="Botella vino tinto">
+            <span class="texto-bebida">
+              Botella vino tinto (+10€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Copa vino tinto">
+            <span class="texto-bebida">
+              Copa vino tinto (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="10" data-nombre="Botella vino blanco">
+            <span class="texto-bebida">
+              Botella vino blanco (+10€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Botella vino blanco">
+            <span class="texto-bebida">
+              Botella vino blanco (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="10" data-nombre="Botella de cava">
+            <span class="texto-bebida">
+              Botella cava (+10€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <hr class="sep-bebidas">
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Lata cocacola">
+            <span class="texto-bebida">
+              Lata Coca-Cola (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Lata fanta limón">
+            <span class="texto-bebida">
+              Lata fanta limón (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Lata fanta naranja">
+            <span class="texto-bebida">
+              Lata fanta naranja (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Lata aquarius">
+            <span class="texto-bebida">
+              Lata aquarius (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+          <label>
+            <input type="checkbox" data-precio="2" data-nombre="Lata nestea">
+            <span class="texto-bebida">
+              Lata nestea (+2€)
+            <input type="number" min="1" value="1" class="cantidad-bebida" disabled>
+            </span>
+          </label>
+
+
       </div>
+    </div>
 
       <!-- Bloquear acceso -->
       <label>

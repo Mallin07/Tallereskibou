@@ -259,170 +259,218 @@ document.addEventListener("DOMContentLoaded", () => {
     titulo.textContent = nombreMostrar;
   }
 
-  // =================== Suma de precios ===================
-  const form              = document.getElementById('formulario-taller');
-  const numPersonasInput  = form?.querySelector('#num-personas');
-  const tipoTallerSelect  = form?.querySelector('#tipo-taller');
-  const menuSelect        = form?.querySelector('select[name="menu"]'); // 👈 ACOTADO
-  const bloquearCheckbox  = form?.querySelector('#bloquear-acceso');
-  const detalleFactura    = form?.querySelector('#detalle-factura');
-  const totalEuros        = form?.querySelector('#total-euros');
+// =================== Suma de precios ===================
+const form              = document.getElementById('formulario-taller');
+const numPersonasInput  = form?.querySelector('#num-personas');
+const tipoTallerSelect  = form?.querySelector('#tipo-taller');
+const menuSelect        = form?.querySelector('select[name="menu"]'); // 👈 ACOTADO
+const bloquearCheckbox  = form?.querySelector('#bloquear-acceso');
+const detalleFactura    = form?.querySelector('#detalle-factura');
+const totalEuros        = form?.querySelector('#total-euros');
 
-  // Precios por tipo de taller (ajusta a tus tarifas)
-  const tarifas = {
-    'pendientes-iniciacion':  { porPersona: 45, bloqueo: { 4: 40, 5: 20, 6: 0 } },
-    'pendientes-intermedio':  { porPersona: 50, bloqueo: { 4: 40, 5: 20, 6: 0 } },
-    'pendientes-avanzado':    { porPersona: 55, bloqueo: { 4: 40, 5: 20, 6: 0 } },
-  };
+// Precios por tipo de taller (ajusta a tus tarifas)
+const tarifas = {
+  'pendientes-iniciacion':  { porPersona: 45, bloqueo: { 4: 45, 5: 25, 6: 0 } },
+  'pendientes-intermedio':  { porPersona: 50, bloqueo: { 4: 50, 5: 25, 6: 0 } },
+  'pendientes-avanzado':    { porPersona: 60, bloqueo: { 4: 60, 5: 30, 6: 0 } },
+};
 
-  // Formateador €
-  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
+// Precio de menú (unidad) usado en todos los cálculos
+const MENU_UNIT_PRICE = 15;
 
-  function calcularTotal() {
-    const tipo = tipoTallerSelect?.value;
-    const plan = tarifas[tipo];
-    if (!plan) {
-      if (detalleFactura) detalleFactura.innerHTML = '';
-      if (totalEuros) totalEuros.textContent = '0.00';
+// Formateador €
+const eur = n => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(n);
+
+// Helper: precio de bebida (data-precio o value)
+function precioBebida(chk) {
+  const raw = (chk.dataset?.precio ?? chk.value ?? '0');
+  return parseFloat(String(raw).replace(',', '.')) || 0;
+}
+
+function calcularTotal() {
+  const tipo = tipoTallerSelect?.value;
+  const plan = tarifas[tipo];
+  if (!plan) {
+    if (detalleFactura) detalleFactura.innerHTML = '';
+    if (totalEuros) totalEuros.textContent = '0.00';
+    return;
+  }
+
+  const numPersonas = parseInt(numPersonasInput?.value || '0', 10);
+  const bloquear    = !!bloquearCheckbox?.checked;
+
+  // =================== Bebidas con cantidad ===================
+  const bebidaChecks = Array.from(
+    form?.querySelectorAll('#lista-bebidas input[type="checkbox"]') || []
+  );
+
+  const bebidasSeleccionadas = bebidaChecks
+    .filter(chk => chk.checked)
+    .map(chk => {
+      const precio = precioBebida(chk);
+      const nombre = chk.dataset?.nombre || 'Bebida';
+      const cantidadInput = chk.closest('label')?.querySelector('.cantidad-bebida');
+      const cantidad = Math.max(1, parseInt(cantidadInput?.value || '1', 10));
+      return { nombre, precio, cantidad, subtotal: precio * cantidad };
+    });
+
+  const totalBebidas = bebidasSeleccionadas.reduce((s, b) => s + b.subtotal, 0);
+
+  const precioPorPersona = plan.porPersona;
+  const totalPersonas    = numPersonas * precioPorPersona;
+
+  // Bloqueo: solo si hay nº válido
+  const precioBloqueo = (bloquear && [4,5,6].includes(numPersonas))
+    ? (plan.bloqueo[numPersonas] || 0)
+    : 0;
+
+  // Menú
+  const menuElegido = (menuSelect && menuSelect.value) ? menuSelect.value : 'sin-menu';
+  const precioMenuUnidad = (menuElegido === 'sin-menu') ? 0 : MENU_UNIT_PRICE;
+  const totalMenu   = precioMenuUnidad * numPersonas;
+
+  const totalFinal = totalPersonas + precioBloqueo + totalBebidas + totalMenu;
+
+  if (detalleFactura && totalEuros) {
+    detalleFactura.innerHTML = `
+      - ${numPersonas || 0} persona(s) × ${eur(precioPorPersona)} = ${eur(totalPersonas)}<br>
+      - Menú: ${menuElegido === 'sin-menu' ? 'No' : `${eur(precioMenuUnidad)} × ${numPersonas} = ${eur(totalMenu)}`}<br>
+      - Bloqueo de acceso: ${bloquear ? eur(precioBloqueo) : 'No'}<br>
+      - Bebidas: ${
+        bebidasSeleccionadas.length
+          ? bebidasSeleccionadas.map(b => `${b.nombre} (${b.cantidad} × ${eur(b.precio)})`).join(', ')
+          : 'Ninguna'
+      }<br>
+    `;
+    totalEuros.textContent = totalFinal.toFixed(2);
+  }
+}
+
+// Eventos
+numPersonasInput?.addEventListener('change', calcularTotal);
+tipoTallerSelect?.addEventListener('change', calcularTotal);
+menuSelect?.addEventListener('change', calcularTotal);
+bloquearCheckbox?.addEventListener('change', calcularTotal);
+
+// Checkboxes de bebidas: habilitan/deshabilitan la cantidad y recalculan
+(form?.querySelectorAll('#lista-bebidas input[type="checkbox"]') || []).forEach(chk => {
+  chk.addEventListener('change', () => {
+    const cantidadInput = chk.closest('label')?.querySelector('.cantidad-bebida');
+    if (cantidadInput) {
+      cantidadInput.disabled = !chk.checked;
+      if (chk.checked && (!cantidadInput.value || parseInt(cantidadInput.value, 10) < 1)) {
+        cantidadInput.value = '1';
+      }
+    }
+    calcularTotal();
+  });
+});
+
+// Inputs de cantidad: validan y recalculan
+(form?.querySelectorAll('#lista-bebidas .cantidad-bebida') || []).forEach(inp => {
+  inp.addEventListener('change', () => {
+    const n = parseInt(inp.value, 10);
+    if (isNaN(n) || n < 1) inp.value = '1';
+    calcularTotal();
+  });
+});
+
+// Inicial
+calcularTotal();
+
+// =================== Mostrar/Ocultar bebidas ===================
+const toggleBebidas = document.getElementById('toggle-bebidas');
+const listaBebidas  = document.getElementById('lista-bebidas');
+if (toggleBebidas && listaBebidas) {
+  toggleBebidas.addEventListener('click', () => {
+    listaBebidas.classList.toggle('oculto');
+    toggleBebidas.textContent = listaBebidas.classList.contains('oculto')
+      ? 'Seleccionar bebidas ▼'
+      : 'Ocultar bebidas ▲';
+  });
+}
+
+// ===== Envío de la solicitud: guarda en Firestore + crea email en `mail` =====
+const formSolicitud = document.getElementById('formulario-taller');
+if (formSolicitud) {
+  formSolicitud.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const personas   = parseInt(formSolicitud.querySelector('#num-personas')?.value || '0', 10);
+    const tipoTaller = formSolicitud.querySelector('#tipo-taller')?.value || '';
+    const menuValue  = formSolicitud.querySelector('select[name="menu"]')?.value || 'sin-menu';
+    const bloquear   = !!formSolicitud.querySelector('#bloquear-acceso')?.checked;
+    const fecha      = formSolicitud.querySelector('#fecha-propuesta')?.value || '';
+    const telefono   = formSolicitud.querySelector('#telefono')?.value || '';
+
+    // Bebidas con cantidad
+    const bebidas = Array.from(
+      formSolicitud.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked')
+    ).map(chk => {
+      const precio = precioBebida(chk);
+      const nombre = chk.dataset?.nombre || 'Bebida';
+      const cantidadInput = chk.closest('label')?.querySelector('.cantidad-bebida');
+      const cantidad = Math.max(1, parseInt(cantidadInput?.value || '1', 10));
+      return { nombre, precio, cantidad, subtotal: precio * cantidad };
+    });
+    const totalBebidas = bebidas.reduce((s, b) => s + b.subtotal, 0);
+
+    // Validaciones mínimas
+    if (!tipoTaller || !personas) {
+      alert("Selecciona el tipo de taller y el número de personas.");
       return;
     }
 
-    const numPersonas = parseInt(numPersonasInput?.value || '0', 10);
-    const bloquear    = !!bloquearCheckbox?.checked;
-
-    // Bebidas (acotado al form)
-    const bebidaSeleccionadas = Array.from(
-      form?.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked') || []
-    );
-    const totalBebidas = bebidaSeleccionadas.reduce((s, opt) => {
-      const v = parseFloat((opt.value || '').replace(',', '.'));
-      return s + (isNaN(v) ? 0 : v);
-    }, 0);
-
+    const plan = tarifas[tipoTaller];
     const precioPorPersona = plan.porPersona;
-    const totalPersonas    = numPersonas * precioPorPersona;
+    const totalPersonas = precioPorPersona * personas;
+    const precioBloqueo = (bloquear && [4,5,6].includes(personas)) ? (plan.bloqueo[personas] || 0) : 0;
 
-    // Bloqueo: solo si hay nº válido
-    const precioBloqueo = (bloquear && [4,5,6].includes(numPersonas))
-      ? (plan.bloqueo[numPersonas] || 0)
-      : 0;
+    const precioMenuUnidad = (menuValue === 'sin-menu') ? 0 : MENU_UNIT_PRICE;
+    const totalMenu = precioMenuUnidad * personas;
 
-    // Menú (lee del select correcto)
-    const menuElegido = (menuSelect && menuSelect.value) ? menuSelect.value : 'sin-menu';
-    const precioMenu  = (menuElegido === 'sin-menu') ? 0 : 20;
-    const totalMenu   = precioMenu * numPersonas;
+    const total = totalPersonas + precioBloqueo + totalBebidas + totalMenu;
 
-    const totalFinal = totalPersonas + precioBloqueo + totalBebidas + totalMenu;
-
-    if (detalleFactura && totalEuros) {
-      detalleFactura.innerHTML = `
-        - ${numPersonas || 0} persona(s) × ${eur(precioPorPersona)} = ${eur(totalPersonas)}<br>
-        - Menú: ${menuElegido === 'sin-menu' ? 'No' : `${eur(precioMenu)} × ${numPersonas} = ${eur(totalMenu)}`}<br>
-        - Bloqueo de acceso: ${bloquear ? eur(precioBloqueo) : 'No'}<br>
-        - Bebidas: ${
-          bebidaSeleccionadas.length
-            ? bebidaSeleccionadas.map(opt => opt.dataset.nombre).join(', ')
-            : 'Ninguna'
-        }<br>
-      `;
-      totalEuros.textContent = totalFinal.toFixed(2);
-    }
-  }
-
-  // Eventos
-  numPersonasInput?.addEventListener('change', calcularTotal);
-  tipoTallerSelect?.addEventListener('change', calcularTotal);
-  menuSelect?.addEventListener('change', calcularTotal);
-  bloquearCheckbox?.addEventListener('change', calcularTotal);
-  (form?.querySelectorAll('#lista-bebidas input[type="checkbox"]') || []).forEach(cb => {
-    cb.addEventListener('change', calcularTotal);
-  });
-
-  // Inicial
-  calcularTotal();
-
-  // =================== Mostrar/Ocultar bebidas ===================
-  const toggleBebidas = document.getElementById('toggle-bebidas');
-  const listaBebidas = document.getElementById('lista-bebidas');
-  if (toggleBebidas && listaBebidas) {
-    toggleBebidas.addEventListener('click', () => {
-      listaBebidas.classList.toggle('oculto');
-      toggleBebidas.textContent = listaBebidas.classList.contains('oculto')
-        ? 'Seleccionar bebidas ▼'
-        : 'Ocultar bebidas ▲';
-    });
-  }
-
-  // ===== Envío de la solicitud: guarda en Firestore + crea email en `mail` =====
-  const formSolicitud = document.getElementById('formulario-taller');
-  if (formSolicitud) {
-    formSolicitud.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const personas   = parseInt(formSolicitud.querySelector('#num-personas')?.value || '0', 10);
-      const tipoTaller = formSolicitud.querySelector('#tipo-taller')?.value || '';
-      const menuValue  = formSolicitud.querySelector('select[name="menu"]')?.value || 'sin-menu';
-      const bloquear   = !!formSolicitud.querySelector('#bloquear-acceso')?.checked;
-      const fecha      = formSolicitud.querySelector('#fecha-propuesta')?.value || '';
-      const telefono   = formSolicitud.querySelector('#telefono')?.value || '';
-
-      // Bebidas seleccionadas
-      const bebidas = Array.from(
-        formSolicitud.querySelectorAll('#lista-bebidas input[type="checkbox"]:checked')
-      ).map(chk => ({ nombre: chk.dataset.nombre, precio: parseFloat((chk.value||'0').replace(',','.'))||0 }));
-      const totalBebidas = bebidas.reduce((s,b)=>s+b.precio,0);
-
-      // Validaciones mínimas
-      if (!tipoTaller || !personas) {
-        alert("Selecciona el tipo de taller y el número de personas.");
-        return;
+    const payload = {
+      createdAt: serverTimestamp(),
+      user: {
+        uid: auth.currentUser?.uid || null,
+        nombre: currentUserName || null,
+        email: currentUserEmail || null,
+      },
+      solicitud: {
+        personas, tipoTaller,
+        menu: menuValue,
+        bloquear,
+        fecha,
+        telefono: telefono || null,
+        bebidas: bebidas.map(b => b.nombre), // compatibilidad
+        bebidasDetalle: bebidas.map(b => ({ nombre: b.nombre, precio: b.precio, cantidad: b.cantidad }))
+      },
+      precios: {
+        porPersona: precioPorPersona,
+        totalPersonas,
+        bloqueo: precioBloqueo,
+        bebidas: totalBebidas,
+        menuUnidad: precioMenuUnidad,
+        totalMenu,
+        total,
+        currency: "EUR"
       }
+    };
 
-      const plan = tarifas[tipoTaller];
-      const precioPorPersona = plan.porPersona;
-      const totalPersonas = precioPorPersona * personas;
-      const precioBloqueo = (bloquear && [4,5,6].includes(personas)) ? (plan.bloqueo[personas] || 0) : 0;
-      const precioMenuUnidad = (menuValue === 'sin-menu') ? 0 : 20;
-      const totalMenu = precioMenuUnidad * personas;
-      const total = totalPersonas + precioBloqueo + totalBebidas + totalMenu;
+    try {
+      // 1) Guardar solicitud
+      const ref = await addDoc(collection(db, "solicitudes"), payload);
 
-      const payload = {
-        createdAt: serverTimestamp(),
-        user: {
-          uid: auth.currentUser?.uid || null,
-          nombre: currentUserName || null,
-          email: currentUserEmail || null,
-        },
-        solicitud: {
-          personas, tipoTaller,
-          menu: menuValue,
-          bloquear,
-          fecha,
-          telefono: telefono || null,
-          bebidas: bebidas.map(b => b.nombre)
-        },
-        precios: {
-          porPersona: precioPorPersona,
-          totalPersonas,
-          bloqueo: precioBloqueo,
-          bebidas: totalBebidas,
-          menuUnidad: precioMenuUnidad,
-          totalMenu,
-          total,
-          currency: "EUR"
-        }
-      };
+      // 2) Crear email en colección `mail` para Kibou
+      const displayName = payload.user.nombre || payload.user.email || payload.user.uid || "Cliente";
+      const bebidasTxt = bebidas.length
+        ? bebidas.map(b => `${b.nombre} x${b.cantidad} (${b.subtotal.toFixed(2)} €)`).join(", ")
+        : "Ninguna";
+      const asunto = `Nueva solicitud #${ref.id} — ${tipoTaller} (${personas}p)`;
 
-      try {
-        // 1) Guardar solicitud
-        const ref = await addDoc(collection(db, "solicitudes"), payload);
-
-        // 2) Crear email en colección `mail` para Kibou
-        const displayName = payload.user.nombre || payload.user.email || payload.user.uid || "Cliente";
-        const bebidasTxt = bebidas.length ? bebidas.map(b=>b.nombre).join(", ") : "Ninguna";
-        const asunto = `Nueva solicitud #${ref.id} — ${tipoTaller} (${personas}p)`;
-
-        const texto =
+      const texto =
 `Nueva solicitud #${ref.id}
 
 [Usuario]
@@ -448,7 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
 --------------------------
 TOTAL: ${total.toFixed(2)} €`;
 
-        const html =
+      const html =
 `<h2>Nueva solicitud <strong>#${ref.id}</strong></h2>
 <h3>Usuario</h3>
 <ul>
@@ -476,19 +524,20 @@ TOTAL: ${total.toFixed(2)} €`;
 </ul>
 <p style="font-weight:700">TOTAL: ${total.toFixed(2)} €</p>`;
 
-        await addDoc(collection(db, "mail"), {
-          to: "tallereskibou@gmail.com",
-          replyTo: (currentUserEmail ? `${displayName} <${currentUserEmail}>` : undefined),
-          message: { subject: asunto, text: texto, html }
-        });
+      await addDoc(collection(db, "mail"), {
+        to: "tallereskibou@gmail.com",
+        replyTo: (currentUserEmail ? `${displayName} <${currentUserEmail}>` : undefined),
+        message: { subject: asunto, text: texto, html }
+      });
 
-        alert("¡Solicitud enviada! Te contactaremos en breve.");
-        formSolicitud.reset();
-        calcularTotal();
-      } catch (err) {
-        console.error(err);
-        alert("No se pudo enviar la solicitud. Intenta de nuevo.");
-      }
-    });
-  }
+      alert("¡Solicitud enviada! Te contactaremos en breve.");
+      formSolicitud.reset();
+      calcularTotal();
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo enviar la solicitud. Intenta de nuevo.");
+    }
+  });
+}
+
 });

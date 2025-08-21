@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pendientes Kibou</title>
-  <link rel="stylesheet" href="pendientes.css" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Talleres Kibou</title>
+  <link rel="stylesheet" href="gastro1.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body>
@@ -48,45 +48,46 @@
   <div class="menu" id="menu">
     <a href="../index.html">Inicio</a>
     <a href="../pendientes/pendientes.html">Pendientes</a>
-    <a href="../disponibles/disponibles.html">Talleres disponibles</a>
+    <a href="disponibles.html">Talleres disponibles</a>
     <a href="../solicitud/solicitud.html">Solicitar taller personalizado</a>
     <a href="../info/info.html">Información</a>
   </div>
 </nav>
 </header>
 
-    <!-- Contenido principal -->
-    <main>
+<!----------------------CONTENIDO PRINCIPAL------------------>
+<div class="contenido-fijo-350">
+  <p class="titulo">Gastrotaller iniciación</p>
+  <p class="subtitulo"> 27 de septiembre</p>
+  <p class="fecha">10:00 a 13:30</p>
+</div>
 
-      <h2 class="titulo-taller">Gastrotaller de pendientes intermedio</h2>
-      <p class="fecha-taller">Sin fechas</p>
+<section class="hero-slider" aria-label="Galería de imágenes">
+  <img src="assets/terracota1.jpg" loading="eager" class="active">
+  <img src="assets/pendientes1.jpg"  loading="lazy">
+  <img src="assets/marmolado1.jpg"  loading="lazy">
+</section>
 
-      <div class="talleres-contenedor">
-
-        <!-- Taller -->
-        <section class="taller-box" data-taller-id="gastro-pendientes-iniciación">    
-        
-          <div class="carrusel">
-            <div class="carrusel-imagenes">
-              <img src="assets/marmolado1.jpg" class="imagen-gastrotaller carrusel-item activo" alt="Imagen 1" />
-              <img src="assets/pendientes1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 2" />
-              <img src="assets/terracota1.jpg" class="imagen-gastrotaller carrusel-item" alt="Imagen 3" />
-            </div>
-            <button class="carrusel-btn anterior">‹</button>
-            <button class="carrusel-btn siguiente">›</button>
-          </div>
-
-      <div class="espaciado">
+<div class="contenido-fijo-350">
+        <div class="intro">
               En este taller aprenderás a crear pendientes de arcilla polimérica con técnicas
-              de terracota o marmolado. Ideal para principiantes. Aún así, la versatilidad de colores y formas permite elaborar un sin fin de posibilidades y con vistosos resultados.
-            </div>
+              de terracota o marmolado. Ideal para principiantes. 
+        </div>
+
+        <div class="intro">
+               Aún así, la versatilidad de colores y formas permite elaborar un sin fin de posibilidades y con vistosos resultados.
+        </div>
+
+        <div class="intro">
+               Este tayer incluye un pica-pica al final de la sessión:
+        </div>
 
             <div class="espaciado">
               <strong>Pica-pica:</strong>
               <ul>
                 <li>Arroz de carrilleras con parmesano.</li>
                 <li>Brandada de bacalao con olivada y mantequilla de romero.</li>
-                <li>Surtido de tostas de brie.</li>
+                <li>Surtido de tostas brie.</li>
                 <li>Brochetas caprese con aceite de albahaca.</li>
                 <li>Tacos de salmón aburi.</li>
                 <li>Surtido de chips vegetales.</li>
@@ -95,19 +96,27 @@
             </div>
 
             <div class="espaciado">
-              <strong>Alérgenos:</strong><br>
-              Lácteos, pescado, sésamo, soja, gluten, sulfitos.
+              <strong>Alérgenos:</strong>
+              <ul>
+                <li>Lácteos</li>
+                <li>Pescado</li>
+                <li>Sésamo</li>
+                <li>Soja</li>
+                <li>Gluten</li>
+                <li>Sulfitos</li>
+              </ul>
             </div>
 
-          <img src="assets/precio60.jpg" class="imagen-taller">
+            <img src="assets/precio60.jpg" class="imagen-precio">
 
-        <section 
+
+        <section
           class="taller-box" 
-          data-taller-id="gastro-pendientes-iniciacion" 
-          data-capacidad="0">
+          data-taller-id="gastro-pendientes-iniciación-27-9-M" 
+          data-capacidad="6">
 
           <p class="plazas-disponibles">
-          Plazas disponibles: <span class="contador">0</span>
+          Plazas disponibles: <span class="contador">6</span>
           </p>
 
           <label for="selector-plazas">Nº de plazas a reservar:</label>
@@ -116,13 +125,12 @@
           <button class="boton-inscribirse">Inscribirse</button>
         </section>
 
-      </section>
-
-    </div>
-  </main>
 </div>
 
-<!---------------------------------FOOTER--------------------------------------------------------->
+
+
+<!----------------------FOOTER------------------>
+
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
     <h2 class="footer-title">Contacto</h2>
@@ -144,8 +152,8 @@
   </div>
 </footer>
 
-  <!-- Scripts (ajusta rutas si es necesario) -->
-  <script type="module" src="../firebase.js"></script>  
-  <script type="module" src="talleres.js"></script>
+<script type="module" src="../firebase.js"></script>
+<script type="module" src="gastro1.js"></script>
+
 </body>
 </html>
