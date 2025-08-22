@@ -38,6 +38,14 @@ header h3 {
   font-weight: Bolder;
 }
 
+.titulonaranja {
+  font-size: 1.2em;
+  color: #e67e22;   
+  font-weight: Bolder;
+  text-align: center;
+  align-items: center;
+}
+
 .tituloblanco {
   font-size: 1.2em;
   color: #ffffff;   
