@@ -333,6 +333,28 @@ header h3 {
   to   { opacity: 1; }
 }
 
+
+/* .................botón ir a la tienda.............. */
+
+/* Contenedor del botón */
+.btn-tienda-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Estilos del botón */
+.btn-tienda {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #f28c38; /* naranja */
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+
 /* .................separa solo párrafos consecutivos.............. */
 
 .intro { 
@@ -349,3 +371,4 @@ header h3 {
 }
 
 .textos { font-family: "Inter", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+
