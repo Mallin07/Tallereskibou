@@ -344,5 +344,60 @@ header h3 {
 .textos { font-family: "Inter", system-ui, -apple-system, Roboto, Arial, sans-serif; }
 
 
-/*..........................contenido principal..............................................*/
+/*..........................box taller..............................................*/
 
+.card {
+  display: block;                 /* convierte todo en clicable */
+  max-width: 400px;
+  margin: 40px auto;
+  border-radius: 16px;
+  overflow: hidden;               /* que la imagen no sobresalga */
+  text-align: center;
+  text-decoration: none;          /* quitar subrayado */
+  color: inherit;                 /* usa el color del texto */
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+.card-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card-body {
+  padding: 14px 16px;
+}
+
+.card-title {
+  font-size: 1.2em;
+  margin: 0 0 6px 0;
+  font-weight: bold;
+  color: #e67e22;
+}
+
+.card-subtitle {
+  font-size: 1em;
+  margin: 0 0 10px 0;
+  color: #04660c;
+  font-weight: 600;
+}
+
+.card-fecha {
+  font-size: 1em;
+  margin: 0 0 10px 0;
+  color: #05077a;
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 0.95em;
+  color: #333;
+  line-height: 1.4;
+}
